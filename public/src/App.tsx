@@ -13,6 +13,8 @@ function App() {
   const [keywords, setKeywords] = useState<
     { keyword: string; description: string }[]
   >([]);
+  const [language,setLanguage] = useState<string>("javascript")
+  const [theme,setTheme] = useState<string>("light")
 
   // Fetch steps and start the timer
   const fetchSteps = async (question: string) => {
@@ -70,6 +72,13 @@ function App() {
     }
   }, [startTime]);
 
+  const handleLang = (event:React.ChangeEvent<HTMLSelectElement>) =>{
+    setLanguage(event.target.value)
+  }
+  const handleTheme = (event:React.ChangeEvent<HTMLSelectElement>) =>{
+    setTheme(event.target.value)
+  }
+
   const days = Math.floor(elapsedTime / (24 * 3600));
   const hours = Math.floor((elapsedTime % (24 * 3600)) / 3600);
   const minutes = Math.floor((elapsedTime % 3600) / 60);
@@ -104,7 +113,26 @@ function App() {
           )}
         </label>
       </div>
-
+      <div className="flex w-full justify-end items-center gap-x-4 mb-6">
+        <select className="select select-bordered w-26 max-w-xs " onChange={handleLang}>
+          <option disabled selected>
+            Language
+          </option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+          <option value="cpp">C++</option>
+          <option value="c">C</option>
+        </select>
+        <select className="select select-bordered w-26 max-w-xs" onChange={handleTheme}>
+          <option disabled selected>
+          Theme
+          </option>
+          <option value="vs-dark">Dark</option>
+          <option value="light">Light</option>
+          <option value="vs-light">VS Light</option>
+          <option value="hc-black">High Contrast</option>
+        </select>
+      </div>
       <div className="flex">
         <div className="w-1/4">
           <div className="mb-4 font-bold">Steps</div>
@@ -128,13 +156,14 @@ function App() {
         <div className="w-3/4 pl-4 flex gap-4">
           <div className="flex-1">
             <div className="mb-4">
-              <h3 className="text-lg font-bold">Code Editor</h3>
+              <h3 className="text-lg font-bold mb-3">Code Editor</h3>
               <MonacoEditor
                 height="400px"
-                language="javascript"
+                language={language}
                 value={code}
                 onChange={(value) => setCode(value || "")}
-                theme="vs-dark"
+                theme={theme}
+                defaultValue={`// Write your ${language} code`}
               />
             </div>
 
