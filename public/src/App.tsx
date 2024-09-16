@@ -73,6 +73,8 @@ function App() {
   }, [startTime]);
 
   const handleLang = (event:React.ChangeEvent<HTMLSelectElement>) =>{
+    console.log(event.target.value);
+    
     setLanguage(event.target.value)
   }
   const handleTheme = (event:React.ChangeEvent<HTMLSelectElement>) =>{
@@ -85,7 +87,7 @@ function App() {
   const seconds = elapsedTime % 60;
 
   return (
-    <div className="container mx-auto p-4">
+    <div className=" mx-auto px-4 py-3 w-screen ">
       <div className="text-center mb-4">
         <label className="input input-bordered flex items-center gap-2 mx-auto w-full max-w-md">
           <input
@@ -122,6 +124,7 @@ function App() {
           <option value="java">Java</option>
           <option value="cpp">C++</option>
           <option value="c">C</option>
+          <option value="javascript">JavaScript</option>
         </select>
         <select className="select select-bordered w-26 max-w-xs" onChange={handleTheme}>
           <option disabled selected>
@@ -133,7 +136,7 @@ function App() {
           <option value="hc-black">High Contrast</option>
         </select>
       </div>
-      <div className="flex">
+      <div className="flex w-full">
         <div className="w-1/4">
           <div className="mb-4 font-bold">Steps</div>
           <div className="overflow-y-auto h-[calc(100vh-10rem)]">
@@ -153,17 +156,18 @@ function App() {
           </div>
         </div>
 
-        <div className="w-3/4 pl-4 flex gap-4">
+        <div className="w-fit p-4 flex ">
           <div className="flex-1">
             <div className="mb-4">
               <h3 className="text-lg font-bold mb-3">Code Editor</h3>
               <MonacoEditor
                 height="400px"
+                width="800px"
                 language={language}
                 value={code}
                 onChange={(value) => setCode(value || "")}
                 theme={theme}
-                defaultValue={`// Write your ${language} code`}
+                defaultValue={`// Write your code `}
               />
             </div>
 
@@ -172,7 +176,7 @@ function App() {
             </button>
           </div>
 
-          <div className="w-64 pl-4 border-l border-gray-300">
+          <div className="w-1/4 pl-2 border-l border-gray-300">
             <div className="mb-4 font-bold">Keywords</div>
             <div className="mockup-code">
               {keywords.length > 0 ? (
