@@ -13,8 +13,17 @@ function App() {
   const [keywords, setKeywords] = useState<
     { keyword: string; description: string }[]
   >([]);
-  const [language,setLanguage] = useState<string>("javascript")
-  const [theme,setTheme] = useState<string>("light")
+  const [language, setLanguage] = useState<string>("javascript");
+  const [theme, setTheme] = useState<string>("vs-dark");
+
+  // Comment templates based on language
+  const commentTemplates: { [key: string]: string } = {
+    javascript: "// Write your JavaScript code here",
+    python: "# Write your Python code here",
+    java: "// Write your Java code here",
+    cpp: "// Write your C++ code here",
+    c: "// Write your C code here",
+  };
 
   // Fetch steps and start the timer
   const fetchSteps = async (question: string) => {
@@ -23,6 +32,7 @@ function App() {
       setStartTime(Date.now());
       const { data } = await axios.post("http://localhost:5000/generate-code", {
         prompt: question,
+        language,
       });
       console.log(data);
       setSteps(data.code.steps);
@@ -72,12 +82,15 @@ function App() {
     }
   }, [startTime]);
 
-  const handleLang = (event:React.ChangeEvent<HTMLSelectElement>) =>{
-    setLanguage(event.target.value)
-  }
-  const handleTheme = (event:React.ChangeEvent<HTMLSelectElement>) =>{
-    setTheme(event.target.value)
-  }
+  const handleLang = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLanguage = event.target.value;
+    setLanguage(newLanguage);
+    setCode(commentTemplates[newLanguage] || ""); // Update comment template based on language
+  };
+
+  const handleTheme = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTheme(event.target.value);
+  };
 
   const days = Math.floor(elapsedTime / (24 * 3600));
   const hours = Math.floor((elapsedTime % (24 * 3600)) / 3600);
@@ -114,18 +127,25 @@ function App() {
         </label>
       </div>
       <div className="flex w-full justify-end items-center gap-x-4 mb-6">
-        <select className="select select-bordered w-26 max-w-xs " onChange={handleLang}>
+        <select
+          className="select select-bordered w-26 max-w-xs"
+          onChange={handleLang}
+        >
           <option disabled selected>
             Language
           </option>
+          <option value="javascript">JavaScript</option>
           <option value="python">Python</option>
           <option value="java">Java</option>
           <option value="cpp">C++</option>
           <option value="c">C</option>
         </select>
-        <select className="select select-bordered w-26 max-w-xs" onChange={handleTheme}>
+        <select
+          className="select select-bordered w-26 max-w-xs"
+          onChange={handleTheme}
+        >
           <option disabled selected>
-          Theme
+            Theme
           </option>
           <option value="vs-dark">Dark</option>
           <option value="light">Light</option>
@@ -158,12 +178,13 @@ function App() {
             <div className="mb-4">
               <h3 className="text-lg font-bold mb-3">Code Editor</h3>
               <MonacoEditor
+                key={language} // Force re-render on language change
                 height="400px"
                 language={language}
                 value={code}
                 onChange={(value) => setCode(value || "")}
                 theme={theme}
-                defaultValue={`// Write your ${language} code`}
+                defaultValue={commentTemplates[language]} // Update comment based on language
               />
             </div>
 
