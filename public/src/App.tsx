@@ -11,6 +11,7 @@ function App() {
   const [startTime, setStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
   const [hint, setHint] = useState<boolean>(false);
+  const [hintText,setHintText]=useState<string>("No hints available")
   const [keywords, setKeywords] = useState<
     { keyword: string; description: string }[]
   >([]);
@@ -50,13 +51,14 @@ function App() {
   useEffect(() => {
     if (steps.length > 0) {
       const step = steps[currentStep];
-      if (step && step.keywords) {
+      if (step && step.keywords && step.hint) {
         setKeywords(
           step.keywords.map((kw: any) => ({
             keyword: kw.keyword,
             description: kw.description || "No description available",
           }))
         );
+        setHintText(step.hint || "");
       } else {
         setKeywords([]);
       }
@@ -188,7 +190,9 @@ function App() {
             }}
           >
             <div className="alert alert-info">
-              <span>Here's your hint!</span>
+              <span>
+                {hintText}
+              </span>
             </div>
           </div>
         )}
