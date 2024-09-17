@@ -11,6 +11,7 @@ function App() {
   const [startTime, setStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
   const [hint, setHint] = useState<boolean>(false);
+  const [stepHint, setStepHint] = useState<string>("");
   const [keywords, setKeywords] = useState<
     { keyword: string; description: string }[]
   >([]);
@@ -57,6 +58,7 @@ function App() {
             description: kw.description || "No description available",
           }))
         );
+        setStepHint(step.hint);
       } else {
         setKeywords([]);
       }
@@ -158,7 +160,6 @@ function App() {
           <option value="java">Java</option>
           <option value="cpp">C++</option>
           <option value="c">C</option>
-          <option value="javascript">JavaScript</option>
         </select>
         <select
           className="select select-bordered w-26 max-w-xs"
@@ -188,7 +189,7 @@ function App() {
             }}
           >
             <div className="alert alert-info">
-              <span>Here's your hint!</span>
+              <span>{stepHint}</span>
             </div>
           </div>
         )}
