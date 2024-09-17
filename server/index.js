@@ -339,6 +339,8 @@ For example, for the question "How to implement a function to add two numbers in
 `,
 };
 
+
+
 // Endpoint to generate code based on the language and prompt
 app.post("/generate-code", async (req, res) => {
   const { prompt, language } = req.body;
@@ -396,6 +398,7 @@ app.post("/generate-code", async (req, res) => {
     res.status(500).json({ error: "Error generating code" });
   }
 });
+
 
 // Start the server
 const port = process.env.PORT || 5000;
