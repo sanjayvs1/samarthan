@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MonacoEditor from "@monaco-editor/react";
-
+import { GoLightBulb } from "react-icons/go";
 function App() {
   const [question, setQuestion] = useState("");
   const [steps, setSteps] = useState<any[]>([]);
@@ -12,14 +12,19 @@ function App() {
   const [elapsedTime, setElapsedTime] = useState<number>(0);
   const [hint, setHint] = useState<boolean>(false);
   const [stepHint, setStepHint] = useState<string>("");
+  const [response, setResponse] = useState<any>({});
   const [keywords, setKeywords] = useState<
     { keyword: string; description: string }[]
   >([]);
   const [language, setLanguage] = useState<string>("javascript");
   const [theme, setTheme] = useState<string>("vs-dark");
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-  const [previousStep, setPreviousStep] = useState<number | null>(null);
-
+  const [consoleLogs, setConsoleLogs] = useState<string>("");
+  const [structResponse, setStructResponse] = useState<{ [key: string]: any }>(
+    {}
+  );
+  const [codeparseLoading, setcodeparseLoading] = useState<boolean>(false);
+  const [codeparseError, setcodeparseError] = useState<boolean>(false);
   // Comment templates based on language
   const commentTemplates: { [key: string]: string } = {
     javascript: "// Write your JavaScript code here",
@@ -39,6 +44,7 @@ function App() {
         language,
       });
       console.log(data);
+      setResponse(data);
       setSteps(data.code.steps);
       setCompletedSteps([]);
       setLoading(false);
@@ -65,18 +71,36 @@ function App() {
     }
   }, [currentStep, steps]);
 
-  const handleSubmit = () => {
-    console.log("Submitted code:", code);
-    setCompletedSteps((prev) => [...prev, currentStep]);
-    setCurrentStep((prevStep) => Math.min(prevStep + 1, steps.length - 1));
-    setPreviousStep(currentStep); // Save the current step as the previous step
-  };
-
-  useEffect(() => {
-    if (steps.length > 0) {
-      setCode("");
+  const handleSubmit = async () => {
+    try {
+      if (Object.keys(response).length === 0) return;
+      setcodeparseLoading(true);
+      console.log("Submitted code:", code);
+      let {
+        data: { structuredResponse },
+      } = await axios.post("http://localhost:5000/parseCode", {
+        response,
+        code,
+        currentStep,
+      });
+      setStructResponse(structuredResponse);
+      console.log(structuredResponse.isCorrect);
+      console.log(structuredResponse);
+      if (structuredResponse.isCorrect) {
+        setcodeparseError(false);
+        setCompletedSteps((prev) => [...prev, currentStep]);
+        setCurrentStep((prevStep) => Math.min(prevStep + 1, steps.length - 1));
+        setConsoleLogs(structuredResponse.feedback);
+      } else {
+        setConsoleLogs(structuredResponse.feedback);
+        setcodeparseError(true);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setcodeparseLoading(false);
     }
-  }, [steps]);
+  };
 
   useEffect(() => {
     if (startTime !== null) {
@@ -108,14 +132,8 @@ function App() {
       if (index === currentStep) {
         return; // Prevent clicking on the current step
       }
-      setPreviousStep(currentStep); // Save the current step as the previous step
       setCurrentStep(index);
     }
-  };
-
-  const stepSerialToIndex = (serial: number) => {
-    // Convert step serial number to index (assuming serial starts from 1)
-    return steps.findIndex((step) => step.step_serial === serial);
   };
 
   return (
@@ -193,6 +211,41 @@ function App() {
             </div>
           </div>
         )}
+        {Object.keys(structResponse).length !== 0 && (
+          <div className="drawer w-10 absolute top-3 right-10 z-30">
+            <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+            <div className="drawer-content">
+              {/* Page content here */}
+              <label
+                htmlFor="my-drawer"
+                className="btn btn-primary drawer-button bg-amber-400 p-4 rounded-full "
+              >
+                <GoLightBulb color="#ffffff" />
+              </label>
+            </div>
+            <div className="drawer-side">
+              <label
+                htmlFor="my-drawer"
+                aria-label="close sidebar"
+                className="drawer-overlay"
+              ></label>
+              <ul className="menu bg-base-200 text-base-content min-h-full w-80 ">
+                <p className="text-center font-bold mb-6">Tips and Hints</p>
+                {/* Sidebar content here */}
+                <li>
+                  <a>{structResponse.hints[0]}</a>
+                </li>
+                <li>
+                  <a>{structResponse.hints[1]}</a>
+                </li>
+                <div className="mt-auto mb-5">
+                  <p className="text-center font-bold">Further Steps</p>
+                  <p>{structResponse.nextStep}</p>
+                </div>
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
       <div className="pl-4 flex gap-4">
         <div className="basis-1/5">
@@ -228,18 +281,41 @@ function App() {
               value={code}
               onChange={(value) => setCode(value || "")}
               theme={theme}
-              options={{
-                readOnly: completedSteps.includes(currentStep),
-              }}
+              // options={{
+              //   readOnly: completedSteps.includes(currentStep),
+              // }}
             />
           </div>
-
-          <button className="btn btn-primary" onClick={handleSubmit}>
-            Submit
-          </button>
+          <div className="flex gap-x-16 items-center justify-between pr-14">
+            {codeparseLoading ? (
+              <span className="loading loading-dots loading-lg text-primary"></span>
+            ) : (
+              <button className="btn btn-primary" onClick={handleSubmit}>
+                Submit
+              </button>
+            )}
+            {codeparseError && (
+              <div className="badge badge-error gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="inline-block h-4 w-4 stroke-current"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+                error
+              </div>
+            )}
+          </div>
           <div className="mt-5 bg-base-300 border">
             <p className="ml-4 font-bold">Console</p>
-            <div className="bg-base-200 flex px-4 py-4"></div>
+            <div className="bg-base-200 flex px-4 py-4">{consoleLogs}</div>
           </div>
         </div>
 
