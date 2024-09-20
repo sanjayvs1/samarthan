@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MonacoEditor from "@monaco-editor/react";
 import { GoLightBulb } from "react-icons/go";
-import ConfettiExplosion from "react-confetti-explosion";
 
 import Confetti from "react-confetti";
+import { useNavigate } from "react-router-dom";
+
 
 function CodeEditor() {
   const [question, setQuestion] = useState("");
@@ -32,7 +33,7 @@ function CodeEditor() {
     useState<boolean>(false);
   const [codeparseLoading, setcodeparseLoading] = useState<boolean>(false);
   const [codeparseError, setcodeparseError] = useState<boolean>(false);
-
+ 
   let interval: NodeJS.Timeout;
   // Comment templates based on language
   const commentTemplates: { [key: string]: string } = {
@@ -164,6 +165,8 @@ function CodeEditor() {
     }
   };
 
+  const navigate = useNavigate();
+  
   return (
     <div className="container mx-auto p-4">
       {showCompletionPopup && (
@@ -188,7 +191,7 @@ function CodeEditor() {
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
+              <button className="btn" onClick={()=> {navigate("/Project")}}>Close</button>
             </form>
           </div>
         </div>

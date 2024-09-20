@@ -1,16 +1,22 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CodeEditor from "./pages/CodeEditor";
 import Project from "./pages/Project";
-import Test from "./pages/Test";
+import DetailsA from "./pages/DetailsA";
+import Home from "./pages/Home";
+
+// Other imports
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path="/code-editor" element={<CodeEditor />} />
         <Route path="/project" element={<Project />} />
+        <Route path="/DetailAnalysis" element={<DetailsA />} />
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<Home />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 
