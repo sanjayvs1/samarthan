@@ -10,9 +10,7 @@ import Sandbox from "./pages/Sandbox";
 
 function App() {
   return (
-
-   
-     <Router>
+    <Router>
       <Routes>
         <Route path="/ai-tutor" element={<CodeEditor />} />
         <Route path="/project-roadmap" element={<Project />} />
@@ -28,12 +26,11 @@ function App() {
           path="/module/javascript"
           element={<QuestionPage module="JavaScript" />}
         />
+        {/* <Route path="/Quiz" element={< />}></Route> */}
+        <Route path="/quiz/:id" element={<Quiz />} />
         <Route path="/" element={<Login />} />
-        <Route path="/Quiz" element={<Quiz />}></Route>
-        <Route path="/sandbox" element={<Sandbox/>}></Route>
       </Routes>
     </Router>
-   
   );
 }
 

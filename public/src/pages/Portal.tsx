@@ -76,7 +76,7 @@ const Portal = () => {
       description:
         "Master Express.js and develop server-side applications with Node.js, routing, and middleware.",
       questions: 80,
-      route: "/module/express",
+      route: "/quiz/express",
     },
     {
       icon: <FaReact className="text-blue-500 text-4xl mb-4" />,
@@ -84,7 +84,7 @@ const Portal = () => {
       description:
         "Master React.js, create dynamic UIs, and learn about state management, hooks, and more.",
       questions: 100,
-      route: "/module/react",
+      route: "/quiz/react",
     },
     {
       icon: <FaDatabase className="text-green-500 text-4xl mb-4" />,
@@ -92,7 +92,7 @@ const Portal = () => {
       description:
         "Master SQL database querying and learn how to handle data with relational databases.",
       questions: 70,
-      route: "/module/sql",
+      route: "/quiz/sql",
     },
     {
       icon: <FaLinux className="text-gray-500 text-4xl mb-4" />,
@@ -100,7 +100,7 @@ const Portal = () => {
       description:
         "Explore Linux commands, shell scripting, file systems, and server administration.",
       questions: 90,
-      route: "/module/linux",
+      route: "/quiz/linux",
     },
   ];
 
