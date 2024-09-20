@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Portal from "./pages/Portal";
 import QuestionPage from "./pages/QuestionPage";
 import Quiz from "./pages/Quiz";
+import Sandbox from "./pages/Sandbox";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         />
         <Route path="/" element={<Login />} />
         <Route path="/Quiz" element={<Quiz />}></Route>
+        <Route path="/sandbox" element={<Sandbox/>}></Route>
       </Routes>
     </Router>
    

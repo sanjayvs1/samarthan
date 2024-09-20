@@ -75,7 +75,6 @@ const Quiz = () => {
             setScore(0);
         } catch (error) {
             console.error("Error fetching quiz:", error);
-            // You might want to add error handling here
         } finally {
             setLoading(false);
         }

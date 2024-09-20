@@ -25,3 +25,7 @@
 .mermaid svg {
   stroke: white;
 }
+
+.mermaid {
+  @apply bg-slate-100 mx-auto;
+}

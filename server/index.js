@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { exec } = require("child_process");
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const mongoose = require("mongoose");
@@ -689,7 +690,7 @@ app.post("/generate-roadmap", async (req, res) => {
 // const quizRouter = require('routes/quiz');
 // app.use('/quiz', quizRouter);
 
-const quizPrompt = `Generate 5 questions in JSON format mentioned below related to topic mentioned below. Do not return anything else.
+const quizPrompt = `Generate 10 questions in JSON format mentioned below related to topic mentioned below. Do not return anything else. Keep the answers short.
 JSON format:
 {
   "questions": [
@@ -728,6 +729,19 @@ app.post("/quiz/generate", async (req, res) => {
     console.error("Error generating quiz:", error);
     res.status(500).json({ error: "Error generating quiz" });
   }
+});
+
+app.post("/execute", (req, res) => {
+  const { code } = req.body;
+  const code2 = code.replace(/"/g, "'");
+  exec(`node -e "${code2}"`, (error, stdout, stderr) => {
+    if (error) {
+      return res.json({ output: "Error" });
+    }
+    data = { output: stdout };
+    console.log(data);
+    res.json(data);
+  });
 });
 
 // Start the server

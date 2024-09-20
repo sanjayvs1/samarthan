@@ -64,7 +64,7 @@ const Project = () => {
       C-->D
       D-->A
   `;
-    const [diagram, setDiagram] = useState(diagramCode);
+    const [diagram, setDiagram] = useState(null);
     useEffect(() => {
         if (result) {
             const html = md.render(result);
@@ -91,7 +91,7 @@ const Project = () => {
                                 viewBox="0 0 16 16"
                                 fill="currentColor"
                                 className={`h-4 w-4 opacity-70 ${loading ? "hidden" : ""}`}
-                                onClick={() => fetchResult(question)}
+                                onClick={() => { if (question !== "") { fetchResult(question) } }}
                             >
                                 <path
                                     fillRule="evenodd"
@@ -105,8 +105,11 @@ const Project = () => {
                         </label>
                     </div>
                 </div>
-                <h3 className="text-lg font-bold mb-3">Project Roadmap</h3>
-                <MermaidDiagram key={diagram} chart={diagram} />
+                <h3 className="text-2xl font-bold mb-3">Project Roadmap</h3>
+                {!diagram && (<p>Input a project topic and click on the search icon to generate a workflow diagram and a detailed roadmap</p>)}
+
+                {diagram && (<MermaidDiagram key={diagram} chart={diagram} />
+                )}
                 <br />
                 {
                     result && (
