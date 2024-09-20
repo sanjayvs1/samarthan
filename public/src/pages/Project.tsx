@@ -3,10 +3,12 @@ import mermaid from 'mermaid';
 import axios from 'axios';
 import markdownIt from 'markdown-it';
 import './Project.css'
+import { store, useAppSelector } from './redux';
 
 interface MermaidDiagramProps {
     chart: string;
 }
+
 
 const md = markdownIt();
 const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
@@ -29,6 +31,7 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
 };
 
 const Project = () => {
+    const theoryQuestion = useAppSelector((store) => store.question.question);
     const [loading, setLoading] = useState<boolean>(false);
     const [result, setResult] = useState(null);
     const [question, setQuestion] = useState("");
@@ -38,6 +41,13 @@ const Project = () => {
         setDiagram(data.diagram);
         console.log(data.diagram)
     }
+    useEffect(()=>{
+        if(theoryQuestion) {
+            console.log(theoryQuestion)
+            setQuestion(theoryQuestion)
+            fetchResult(theoryQuestion)
+        } ;
+    },[theoryQuestion])
     const fetchResult = async (question: string) => {
         setLoading(true)
         fetchDiagram(question);
@@ -74,7 +84,7 @@ const Project = () => {
                                 className="grow"
                                 placeholder="Search"
                                 value={question}
-                                onChange={(e) => setQuestion(e.target.value)}
+                                onChange={(e) => setQuestion(e.target.value) }
                             />
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

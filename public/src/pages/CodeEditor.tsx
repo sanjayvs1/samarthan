@@ -304,6 +304,15 @@ function CodeEditor() {
           <option value="hc-black">High Contrast</option>
         </select>
         <button
+          className="btn btn-primary"
+          onClick={() => {
+            navigate('/project-roadmap')
+          }}
+        >
+          Learn Theory
+        </button>
+
+        <button
           className="btn btn-accent"
           onClick={() => {
             setHint(true);
@@ -313,12 +322,12 @@ function CodeEditor() {
         </button>
         {hint && (
           <div
-            className="toast toast-start"
+            className="toast toast-start z-40"
             onClick={() => {
               setHint(false);
             }}
           >
-            <div className="alert alert-info">
+            <div className="alert alert-info z-10">
               <span>{stepHint}</span>
             </div>
           </div>
