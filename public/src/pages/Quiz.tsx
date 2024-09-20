@@ -1,7 +1,8 @@
 import axios from "axios";
 import { ArrowRight, CheckCircle, Search, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { setIncrementStar, setUserTags, useAppDispatch } from "./redux";
 
 const Quiz = () => {
   const { id } = useParams();
@@ -69,7 +70,8 @@ const Quiz = () => {
   const [isCorrect, setIsCorrect] = useState(null);
   const [loading, setLoading] = useState(false);
   const [score, setScore] = useState(0);
-
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate();
   const fetchQuiz = async (topic: any) => {
     setLoading(true);
     try {
@@ -205,12 +207,24 @@ const Quiz = () => {
                     Quiz completed! Your final score is {score}/
                     {quizData.questions.length}
                   </p>
+                  <div className="flex gap-x-4">
                   <button
                     className="btn btn-primary mt-4"
                     onClick={() => fetchQuiz(topic)}
                   >
                     Start New Quiz
                   </button>
+                  <button
+                    className="btn btn-primary mt-4"
+                    onClick={() => {
+                      dispatch(setIncrementStar(1))
+                      dispatch(setUserTags({tag:id}))
+                      navigate('/your-profile')
+                    }}
+                  >
+                   View Your Progress
+                  </button>
+                  </div>
                 </div>
               )}
           </div>
