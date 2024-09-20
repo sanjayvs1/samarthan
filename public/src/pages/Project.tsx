@@ -1,24 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import mermaid from 'mermaid';
 import axios from 'axios';
+import markdownIt from 'markdown-it';
+import './Project.css'
 
 interface MermaidDiagramProps {
     chart: string;
 }
 
+const md = markdownIt();
 const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
     const [isChartLoaded, setIsChartLoaded] = useState(false);
     const chartRef = useRef(null);
-
-    
-
-    // useEffect(() => {
-    //     if (chart) {
-    //         mermaid.initialize({ startOnLoad: true });
-    //         mermaid.contentLoaded();
-    //     }
-    // }, [chart]);
-
     useEffect(() => {
         if (chart && !isChartLoaded) {
             mermaid.initialize({ startOnLoad: true });
@@ -37,24 +30,38 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
 
 const Project = () => {
     const [loading, setLoading] = useState<boolean>(false);
-    const fetchDiagram = async (question: string) => {
-        setLoading(true)
+    const [result, setResult] = useState(null);
+    const [question, setQuestion] = useState("");
 
+    const fetchDiagram = async (question: string) => {
         const { data } = await axios.post("http://localhost:5000/generate-diagram", { prompt: question })
         setDiagram(data.diagram);
         console.log(data.diagram)
+    }
+    const fetchResult = async (question: string) => {
+        setLoading(true)
+        fetchDiagram(question);
+        const { data } = await axios.post("http://localhost:5000/generate-roadmap", { topic: question })
+        setResult(data.result);
+        console.log(data.result)
         setLoading(false)
     }
-    const [question, setQuestion] = useState("");
     const diagramCode: string = `
     graph TD
-      Bruh-->B
+      Sample-->B
       A-->C
       B-->D
       C-->D
       D-->A
   `;
     const [diagram, setDiagram] = useState(diagramCode);
+    useEffect(() => {
+        if (result) {
+            const html = md.render(result);
+            const element = document.getElementById('detailed-explanation');
+            if (element) element.innerHTML = html;
+        }
+    }, [result]);
 
     return (
         <div>
@@ -74,7 +81,7 @@ const Project = () => {
                                 viewBox="0 0 16 16"
                                 fill="currentColor"
                                 className={`h-4 w-4 opacity-70 ${loading ? "hidden" : ""}`}
-                                onClick={() => fetchDiagram(question)}
+                                onClick={() => fetchResult(question)}
                             >
                                 <path
                                     fillRule="evenodd"
@@ -82,13 +89,24 @@ const Project = () => {
                                     clipRule="evenodd"
                                 />
                             </svg>
+                            {loading && (
+                                <span className="loading loading-infinity loading-md"></span>
+                            )}
                         </label>
                     </div>
                 </div>
                 <h3 className="text-lg font-bold mb-3">Project Roadmap</h3>
                 <MermaidDiagram key={diagram} chart={diagram} />
                 <br />
-                <h3 className="text-lg font-bold mb-3">Detailed Explanation</h3>
+                {
+                    result && (
+                        <>
+                            <h3 className="text-lg font-bold mb-3">Detailed Explanation</h3>
+                            <div id="detailed-explanation"></div>
+                        </>
+                    )
+                }
+
             </div>
         </div>
     )

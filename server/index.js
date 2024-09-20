@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const mongoose = require("mongoose");
 mongoose
@@ -463,8 +464,9 @@ The evaluation should consider:
   ]
 }
 
-Note: We are currently at step ${currentStep +
-    1}. Evaluate the user's code with this context in mind and provide the structured JSON response accordingly.
+Note: We are currently at step ${
+    currentStep + 1
+  }. Evaluate the user's code with this context in mind and provide the structured JSON response accordingly.
 `;
 
   try {
@@ -502,7 +504,7 @@ Note: We are currently at step ${currentStep +
 });
 
 const diagramPrompts = {
-  mermaid: `Generate a Mermaid diagram based on the following prompt: {{PROMPT}}. The diagram should be in Mermaid syntax. Give me only the Mermaid diagram with semicolons at the end of every line as output, no other text.`,
+  mermaid: `Generate a Mermaid diagram based on the following prompt: {{PROMPT}}. The diagram should be in Mermaid syntax. Give me only the Mermaid diagram with semicolons at the end of every line as output, no other text. The diagram should be a single graph without subgraphs. Make is so that its not very wide`,
 };
 
 // Endpoint to generate diagrams based on the prompt
@@ -660,33 +662,73 @@ app.post("/generate-errors", async (req, res) => {
 });
 
 const roadmapPrompt = `
-Given the following steps, provide a hint for each step. The hints should help clarify the step without giving away the solution directly.
+Generate a detailed roadmap for the project topic mentioned below. Mention Tech Stack.
 
-Steps:
+Topic:
 {{title}}
-
-Hints:
 `;
 
-// app.post("/generate-roadmap", async (req,res) => {
-//   const {topic} = req.body;
-//   const finalPrompt = roadmapPrompt.replace("{{title}}", topic);
-//   try {
-//     const chatSession = model.startChat({
-//       generationConfig,
-//       history: [],
-//     });
-//     const result = await chatSession.sendMessage(finalPrompt);
-//     let  = result.response.text();
-//     // Clean the response if needed
-//     generatedHints = generatedHints.trim();
+app.post("/generate-roadmap", async (req, res) => {
+  const { topic } = req.body;
+  const finalPrompt = roadmapPrompt.replace("{{title}}", topic);
+  try {
+    const chatSession = model.startChat({
+      generationConfig,
+      history: [],
+    });
+    const result = await chatSession.sendMessage(finalPrompt);
+    let roadmap = result.response.text();
+    roadmap = roadmap.trim();
+    res.json({ result: roadmap });
+  } catch (error) {
+    console.error("Error generating roadmap:", error);
+    res.status(500).json({ error: "Error generating roadmap" });
+  }
+});
 
-//     res.json({ hints: generatedHints });
-//   } catch (error) {
-//     console.error("Error generating hints:", error);
-//     res.status(500).json({ error: "Error generating hints" });
-//   }
-// })
+// const quizRouter = require('routes/quiz');
+// app.use('/quiz', quizRouter);
+
+const quizPrompt = `Generate 5 questions in JSON format mentioned below related to topic mentioned below. Do not return anything else.
+JSON format:
+{
+  "questions": [
+    {
+      "id": 1,
+      "prompt": "What is the purpose of the let keyword in JavaScript?",
+      "answers": [
+        { "text": "Declare a variable with block scope", "correct": true },
+        { "text": "Declare a global variable", "correct": false },
+        { "text": "Define a function", "correct": false }
+      ]
+    },
+    // ... more questions
+  ]
+}
+Topic:
+{{topic}}
+`;
+
+app.post("/quiz/generate", async (req, res) => {
+  const { topic } = req.body;
+  const finalPrompt = quizPrompt.replace("{{topic}}", topic);
+  try {
+    const chatSession = model.startChat({
+      generationConfig,
+      history: [],
+    });
+    const result = await chatSession.sendMessage(finalPrompt);
+    let quiz = result.response.text();
+    quiz = quiz
+      .trim()
+      .replace(/```json/g, "")
+      .replace(/```/g, "");
+    res.json(quiz);
+  } catch (error) {
+    console.error("Error generating quiz:", error);
+    res.status(500).json({ error: "Error generating quiz" });
+  }
+});
 
 // Start the server
 const port = process.env.PORT || 5000;

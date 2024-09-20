@@ -5,8 +5,7 @@ import DetailsA from "./pages/DetailsA";
 import Login from "./pages/Login";
 import Portal from "./pages/Portal";
 import QuestionPage from "./pages/QuestionPage";
-
-// Other imports
+import Quiz from "./pages/Quiz";
 
 function App() {
   return (
@@ -27,6 +26,7 @@ function App() {
           element={<QuestionPage module="JavaScript" />}
         />
         <Route path="/" element={<Login />} />
+        <Route path="/Quiz" element={<Quiz />}></Route>
       </Routes>
     </Router>
   );
