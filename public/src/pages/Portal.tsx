@@ -27,8 +27,15 @@ const Portal = () => {
     {
       title: "Project Roadmap Generator",
       description:
-        "Enter a project idea, and we’ll give you a detailed roadmap to help you achieve it step by step.",
+        "Submit a project idea and receive a step-by-step roadmap to guide you through the entire process, tailored to your needs.",
       route: "/project-roadmap",
+      buttonStyle: "btn-primary",
+    },
+    {
+      title: "Code Query Forum",
+      description:
+        "Submit your code issues or queries and get replies from Gen AI or other users. A great place for collaborative problem-solving.",
+      route: "/code-query-forum",
       buttonStyle: "btn-primary",
     },
   ];
@@ -110,14 +117,14 @@ const Portal = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-10">
-      <Header/>
+      <Header />
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-white text-center mb-10">
           Welcome to the Portal
         </h1>
 
         {/* First Grid: Two Cards in Single Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
           {firstGridCards.map((card, index) => (
             <div
               key={index}
