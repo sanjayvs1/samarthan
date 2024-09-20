@@ -95,7 +95,10 @@ function CodeEditor() {
       setStructResponse(structuredResponse);
       console.log(structuredResponse.isCorrect);
       console.log(structuredResponse);
-     
+      setTimeout(() => {
+        const dialouge = document.getElementById('my_modal_1') as HTMLDialogElement;
+        dialouge.showModal()
+      }, 1000);
       if (structuredResponse.isCorrect) {
         setcodeparseError(false);
         setCompletedSteps((prev) => [...prev, currentStep]);
@@ -108,6 +111,7 @@ function CodeEditor() {
           setFinalTime(elapsedTime);
           setShowCompletionPopup(true); // Show completion popup
           setTimeout(() => setShowCompletionPopup(false), 2000);
+          
           console.log(finalTime);
         }
 
@@ -118,10 +122,7 @@ function CodeEditor() {
         setcodeparseError(true);
       }
     } catch (e) {
-      setTimeout(() => {
-        const dialouge = document.getElementById('my_modal_1') as HTMLDialogElement;
-        dialouge.showModal()
-      }, 1000);
+      
       console.error(e);
     } finally {
 

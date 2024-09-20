@@ -395,6 +395,100 @@ app.post("/generate-code", async (req, res) => {
   }
 });
 
+app.post("/parseCode", async (req, res) => {
+  let { response, code, currentStep } = req.body;
+
+  // Get the current step's prompt and expected structure
+  const currentStepDetails = response.code.steps[currentStep];
+
+  // Build the structured prompt for Gemini
+  const structuredPrompt = `
+Here is the context and question for a coding exercise:
+
+Language: "${response.code.language}"
+Question: "${response.code.question}"
+
+Current Step (${currentStep + 1}): "${currentStepDetails.step_title}"
+
+Keywords for this step: ${currentStepDetails.keywords
+    .map((kw) => kw.keyword)
+    .join(", ")}
+
+User's Code for this step:
+${code}
+
+Please evaluate the user's code for the current step in the specified language and return feedback in the following structured JSON format:
+
+{
+  "feedback": "Provide detailed feedback about the correctness and quality of the user's code, including any issues related to logic, syntax, or code structure.",
+  "hints": ["Hint 1", "Hint 2"], // Provide at most two hints that focus on the major bottlenecks or errors in the code, if any.
+  "isCorrect": true/false, // Indicate if the user's code is correct for this step.
+  "nextStep": "Provide guidance for the next step, or an empty string if the current step is completed."
+}
+
+The evaluation should consider:
+1. The programming language and its conventions.
+2. Syntax correctness and adherence to the language's rules.
+3. The logic and overall structure of the code provided by the user.
+
+### Full process details:
+{
+  "language": "${response.code.language}",
+  "question": "${response.code.question}",
+  "steps": [
+    ${response.code.steps
+      .map(
+        (step, index) => `
+    {
+      "step_id": ${step.step_id},
+      "step_title": "${step.step_title}",
+      "step_description": "${step.step_description}",
+      "step_keywords": "${step.keywords.map((kw) => kw.keyword).join(", ")}",
+      "step_hint": "${step.hint || "None"}"
+    }${index < response.code.steps.length - 1 ? "," : ""}
+    `
+      )
+      .join("")}
+  ]
+}
+
+Note: We are currently at step ${currentStep +
+    1}. Evaluate the user's code with this context in mind and provide the structured JSON response accordingly.
+`;
+
+  try {
+    const chatSession = model.startChat({
+      generationConfig,
+      history: [],
+    });
+
+    const result = await chatSession.sendMessage(structuredPrompt);
+    let structuredResponse = result.response.text();
+
+    // Clean and parse the JSON response
+    structuredResponse = structuredResponse
+      .replace(/```json/g, "") // Remove code block markers
+      .replace(/```/g, "")
+      .trim();
+
+    structuredResponse = JSON.parse(structuredResponse);
+    // console.log({ ...structuredResponse, ...response, code, currentStep });
+    let resp = {
+      structuredResponse,
+      response,
+      code,
+      currentStep,
+    };
+    // console.log(structuredPrompt);
+    // console.log(structuredResponse);
+    // console.log(resp.structuredResponse.isCorrect);
+    // console.log(code, currentStep);
+    res.json({ structuredResponse });
+  } catch (error) {
+    console.error("Error parsing code:", error);
+    res.status(500).json({ error: "Error evaluating the code" });
+  }
+});
 
 
 // Start the server
