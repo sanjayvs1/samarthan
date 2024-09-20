@@ -21,7 +21,6 @@ const generationConfig = {
   responseMimeType: "text/plain",
 };
 
-// Define prompts for different languages
 const prompts = {
   javascript: `Generate a JSON object that represents a coding question in JavaScript. The object should include:
 - "question" as a string describing the coding question.
@@ -339,7 +338,7 @@ For example, for the question "How to implement a function to add two numbers in
 `,
 };
 
-// Endpoint to generate code based on the language and prompt
+// console.log(prompts);
 app.post("/generate-code", async (req, res) => {
   const { prompt, language } = req.body;
 
@@ -369,7 +368,6 @@ app.post("/generate-code", async (req, res) => {
       .status(500)
       .json({ error: "Prompt template not found for the specified language." });
   }
-
   const finalPrompt = promptTemplate.replace("{{QUESTION}}", prompt);
   try {
     const chatSession = model.startChat({
@@ -397,88 +395,6 @@ app.post("/generate-code", async (req, res) => {
   }
 });
 
-const diagramPrompts = {
-  mermaid: `Generate a Mermaid diagram based on the following prompt: {{PROMPT}}. The diagram should be in Mermaid syntax.`,
-};
-
-// Endpoint to generate diagrams based on the prompt
-app.post("/generate-diagram", async (req, res) => {
-  const { prompt } = req.body;
-
-  // Basic validation
-  if (!prompt || typeof prompt !== "string") {
-    return res.status(400).json({
-      error: "Invalid input. 'prompt' must be provided and should be a string.",
-    });
-  }
-
-  // Get the Mermaid prompt template
-  const promptTemplate = diagramPrompts.mermaid;
-  if (!promptTemplate) {
-    return res.status(500).json({
-      error: "Prompt template for diagrams not found.",
-    });
-  }
-
-  const finalPrompt = promptTemplate.replace("{{PROMPT}}", prompt);
-  try {
-    const chatSession = model.startChat({
-      generationConfig,
-      history: [],
-    });
-    const result = await chatSession.sendMessage(finalPrompt);
-    let generatedDiagram = result.response.text();
-    // Clean the response if needed
-    generatedDiagram = generatedDiagram.trim();
-
-    // Return the diagram content
-    res.json({ diagram: generatedDiagram });
-  } catch (error) {
-    console.error("Error generating diagram:", error);
-    res.status(500).json({ error: "Error generating diagram" });
-  }
-});
-const hintPromptTemplate = `
-Given the following steps, provide a hint for each step. The hints should help clarify the step without giving away the solution directly.
-
-Steps:
-{{STEPS}}
-
-Hints:
-`;
-
-// Endpoint to generate hints based on the steps
-app.post("/generate-hints", async (req, res) => {
-  const { steps } = req.body;
-
-  // Basic validation
-  if (!Array.isArray(steps) || steps.length === 0) {
-    return res.status(400).json({
-      error: "Invalid input. 'steps' must be provided as a non-empty array.",
-    });
-  }
-
-  // Construct the prompt with steps
-  const stepsText = steps.map((step, index) => `Step ${index + 1}: ${step}`).join("\n");
-  const finalPrompt = hintPromptTemplate.replace("{{STEPS}}", stepsText);
-
-  try {
-    const chatSession = model.startChat({
-      generationConfig,
-      history: [],
-    });
-    const result = await chatSession.sendMessage(finalPrompt);
-    let generatedHints = result.response.text();
-    // Clean the response if needed
-    generatedHints = generatedHints.trim();
-
-    // Return the hints
-    res.json({ hints: generatedHints });
-  } catch (error) {
-    console.error("Error generating hints:", error);
-    res.status(500).json({ error: "Error generating hints" });
-  }
-});
 
 
 // Start the server

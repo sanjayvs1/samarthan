@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MonacoEditor from "@monaco-editor/react";
 import { GoLightBulb } from "react-icons/go";
-import ConfettiExplosion from 'react-confetti-explosion'
+import ConfettiExplosion from "react-confetti-explosion";
 
-import Confetti from 'react-confetti'
+import Confetti from "react-confetti";
 
 function CodeEditor() {
   const [question, setQuestion] = useState("");
@@ -14,7 +14,7 @@ function CodeEditor() {
   const [loading, setLoading] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
-  const [finalTime , setFinalTime] = useState<number | null>(null);
+  const [finalTime, setFinalTime] = useState<number | null>(null);
   const [hint, setHint] = useState<boolean>(false);
   const [stepHint, setStepHint] = useState<string>("");
   const [response, setResponse] = useState<any>({});
@@ -28,11 +28,12 @@ function CodeEditor() {
   const [structResponse, setStructResponse] = useState<{ [key: string]: any }>(
     {}
   );
-  const [showCompletionPopup, setShowCompletionPopup] = useState<boolean>(false);
+  const [showCompletionPopup, setShowCompletionPopup] =
+    useState<boolean>(false);
   const [codeparseLoading, setcodeparseLoading] = useState<boolean>(false);
   const [codeparseError, setcodeparseError] = useState<boolean>(false);
 
-  let interval:NodeJS.Timeout;
+  let interval: NodeJS.Timeout;
   // Comment templates based on language
   const commentTemplates: { [key: string]: string } = {
     javascript: "// Write your JavaScript code here",
@@ -94,40 +95,43 @@ function CodeEditor() {
       setStructResponse(structuredResponse);
       console.log(structuredResponse.isCorrect);
       console.log(structuredResponse);
+     
       if (structuredResponse.isCorrect) {
         setcodeparseError(false);
         setCompletedSteps((prev) => [...prev, currentStep]);
 
-        //checking for the last step 
-        const isLastStep= currentStep === steps.length -1;
+        //checking for the last step
+        const isLastStep = currentStep === steps.length - 1;
 
-        if(isLastStep){
+        if (isLastStep) {
           clearInterval(interval);
           setFinalTime(elapsedTime);
-          setShowCompletionPopup(true);  // Show completion popup
+          setShowCompletionPopup(true); // Show completion popup
           setTimeout(() => setShowCompletionPopup(false), 2000);
           console.log(finalTime);
-          
         }
 
         setCurrentStep((prevStep) => Math.min(prevStep + 1, steps.length - 1));
         setConsoleLogs(structuredResponse.feedback);
-
-     
       } else {
         setConsoleLogs(structuredResponse.feedback);
         setcodeparseError(true);
       }
     } catch (e) {
+      setTimeout(() => {
+        const dialouge = document.getElementById('my_modal_1') as HTMLDialogElement;
+        dialouge.showModal()
+      }, 1000);
       console.error(e);
     } finally {
+
       setcodeparseLoading(false);
     }
   };
 
   useEffect(() => {
     if (startTime !== null) {
-       interval = setInterval(() => {
+      interval = setInterval(() => {
         setElapsedTime(Math.floor((Date.now() - startTime) / 1000));
       }, 1000);
 
@@ -146,10 +150,9 @@ function CodeEditor() {
   };
 
   let days = Math.floor((finalTime ?? elapsedTime) / (24 * 3600));
-let hours = Math.floor(((finalTime ?? elapsedTime) % (24 * 3600)) / 3600);
-let minutes = Math.floor(((finalTime ?? elapsedTime) % 3600) / 60);
-let seconds = (finalTime ?? elapsedTime) % 60;
-
+  let hours = Math.floor(((finalTime ?? elapsedTime) % (24 * 3600)) / 3600);
+  let minutes = Math.floor(((finalTime ?? elapsedTime) % 3600) / 60);
+  let seconds = (finalTime ?? elapsedTime) % 60;
 
   const handleStepClick = (index: number) => {
     if (index <= currentStep || completedSteps.includes(index)) {
@@ -161,14 +164,34 @@ let seconds = (finalTime ?? elapsedTime) % 60;
   };
 
   return (
-    
     <div className="container mx-auto p-4">
       {showCompletionPopup && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-          {showCompletionPopup && <Confetti width={window.innerWidth} height={window.innerHeight} tweenDuration={2000} run/>}
-          <h1 className="text-white text-5xl font-bold">Successfully Completed!</h1>
+          {showCompletionPopup && (
+            <Confetti
+              width={window.innerWidth}
+              height={window.innerHeight}
+              tweenDuration={2000}
+              run
+            />
+          )}
+          <h1 className="text-white text-5xl font-bold">
+            Successfully Completed!
+          </h1>
         </div>
       )}
+     
+      <dialog id="my_modal_1" className="modal">
+        <div className="modal-box">
+          
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
       <div className="flex w-full justify-end items-center gap-x-4 mb-6">
         <div className="text-center w-1/2 mb-12 mr-auto ">
           <label className="input input-bordered flex items-center gap-2 mx-auto w-full ">
@@ -322,12 +345,13 @@ let seconds = (finalTime ?? elapsedTime) % 60;
               <span className="loading loading-dots loading-lg text-primary"></span>
             ) : (
               <button className="btn btn-primary" onClick={handleSubmit}>
-                {finalTime && <Confetti 
-                width={window.innerWidth}
-                height={window.innerHeight}
-                tweenDuration={2000}
-                />}
-                
+                {finalTime && (
+                  <Confetti
+                    width={window.innerWidth}
+                    height={window.innerHeight}
+                    tweenDuration={2000}
+                  />
+                )}
                 Submit
               </button>
             )}
@@ -349,7 +373,6 @@ let seconds = (finalTime ?? elapsedTime) % 60;
                 error
               </div>
             )}
-            
           </div>
           <div className="mt-5 bg-base-300 border">
             <p className="ml-4 font-bold">Console</p>
