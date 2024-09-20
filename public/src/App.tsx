@@ -9,7 +9,9 @@ import Quiz from "./pages/Quiz";
 
 function App() {
   return (
-    <Router>
+
+   
+     <Router>
       <Routes>
         <Route path="/ai-tutor" element={<CodeEditor />} />
         <Route path="/project-roadmap" element={<Project />} />
@@ -29,6 +31,7 @@ function App() {
         <Route path="/Quiz" element={<Quiz />}></Route>
       </Routes>
     </Router>
+   
   );
 }
 

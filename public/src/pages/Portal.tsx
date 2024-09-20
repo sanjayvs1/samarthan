@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaJava, FaPython, FaCuttlefish, FaJsSquare } from "react-icons/fa";
-import { setLanguage, useAppDispatch } from "./redux";
+import { setLanguage, setQuestion, useAppDispatch } from "./redux";
 
 const Portal = () => {
   const navigate = useNavigate();
@@ -62,6 +62,7 @@ const Portal = () => {
     },
   ];
   const dispatch = useAppDispatch();
+  dispatch(setQuestion({question:""}))
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-10">

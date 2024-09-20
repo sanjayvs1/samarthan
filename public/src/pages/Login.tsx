@@ -2,11 +2,10 @@ import React from "react";
 import { useAsyncError, useNavigate } from "react-router-dom";
 import { setUserType, useAppDispatch, useAppSelector } from "./redux";
 
+
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const ques = useAppSelector((zoom) => zoom.question.question);
-  console.log(ques);
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
       <div className="card w-96 bg-white shadow-xl rounded-lg p-6">
@@ -18,10 +17,8 @@ const Login = () => {
           {/* Student Button */}
           <button
             className="btn btn-primary btn-lg text-white font-semibold py-3 rounded-md shadow-lg transition-all duration-300 ease-in-out hover:shadow-blue-500/50 focus:ring-4 focus:ring-blue-300"
-            onClick={() => {
-              dispatch(setUserType({ type: "user" }));
-              navigate("/portal/student");
-            }}
+            onClick={() =>{
+              navigate("/portal/student")}}
           >
             Student
           </button>
@@ -33,6 +30,7 @@ const Login = () => {
               dispatch(setUserType({ type: "admin" }));
               navigate("/portal/admin");
             }}
+            
           >
             Administrator
           </button>
