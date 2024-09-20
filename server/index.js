@@ -1,6 +1,17 @@
 const express = require("express");
 const cors = require("cors");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const mongoose = require("mongoose");
+mongoose
+  .connect(
+    "mongodb+srv://mavinash422:Jq7jZRsbyTV9BJ2X@cluster0.x36o1.mongodb.net/HackCelestial?retryWrites=true&w=majority&appName=Cluster0"
+  )
+  .then(() => {
+    console.log("DB connection Successful!");
+  })
+  .catch((e) => {
+    console.log(e.message);
+  });
 
 const app = express();
 app.use(express.json());
@@ -523,12 +534,12 @@ app.post("/generate-diagram", async (req, res) => {
     let generatedDiagram = result.response.text();
     // Clean the response if needed
     generatedDiagram = generatedDiagram.trim();
-    if( generatedDiagram.startsWith("\`\`\`mermaid") ) {
+    if (generatedDiagram.startsWith("```mermaid")) {
       generatedDiagram = generatedDiagram.slice(10, -3);
     }
     //slice(10, -3)
     // Return the diagram content
-    console.log(generatedDiagram)
+    console.log(generatedDiagram);
     res.json({ diagram: generatedDiagram });
   } catch (error) {
     console.error("Error generating diagram:", error);
@@ -556,7 +567,9 @@ app.post("/generate-hints", async (req, res) => {
   }
 
   // Construct the prompt with steps
-  const stepsText = steps.map((step, index) => `Step ${index + 1}: ${step}`).join("\n");
+  const stepsText = steps
+    .map((step, index) => `Step ${index + 1}: ${step}`)
+    .join("\n");
   const finalPrompt = hintPromptTemplate.replace("{{STEPS}}", stepsText);
 
   try {
@@ -580,9 +593,10 @@ app.post("/generate-references", async (req, res) => {
   const { project } = req.body;
 
   // Basic validation
-  if (!project || typeof project !== "string" ) {
+  if (!project || typeof project !== "string") {
     return res.status(400).json({
-      error: "Invalid input. 'project' and 'references' must be provided and should be strings.",
+      error:
+        "Invalid input. 'project' and 'references' must be provided and should be strings.",
     });
   }
 
@@ -626,14 +640,14 @@ app.post("/generate-errors", async (req, res) => {
     const chatSession = model.startChat({
       generationConfig: {
         ...generationConfig,
-         // Limit the response length to keep errors concise
+        // Limit the response length to keep errors concise
       },
       history: [],
     });
 
     const result = await chatSession.sendMessage(finalPrompt);
     let generatedErrors = result.response.text();
-    
+
     // Clean the response if needed
     generatedErrors = generatedErrors.trim();
 
@@ -644,7 +658,6 @@ app.post("/generate-errors", async (req, res) => {
     res.status(500).json({ error: "Error generating popular errors" });
   }
 });
-
 
 const roadmapPrompt = `
 Given the following steps, provide a hint for each step. The hints should help clarify the step without giving away the solution directly.

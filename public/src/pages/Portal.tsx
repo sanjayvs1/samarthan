@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaJava, FaPython, FaCuttlefish, FaJsSquare } from "react-icons/fa";
+import { setLanguage, useAppDispatch } from "./redux";
 
 const Portal = () => {
   const navigate = useNavigate();
@@ -60,6 +61,7 @@ const Portal = () => {
       route: "/module/javascript",
     },
   ];
+  const dispatch = useAppDispatch();
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-10">
@@ -111,7 +113,18 @@ const Portal = () => {
               </div>
               <button
                 className="btn btn-accent"
-                onClick={() => navigate(module.route)}
+                onClick={() => {
+                  const route = module.route;
+                  const regex = /\/module\/(\w+)/;
+                  const match = route.match(regex);
+
+                  if (match) {
+                    const lang = match[1];
+                    console.log(lang); // Outputs: java
+                    dispatch(setLanguage({ language: lang }));
+                  }
+                  navigate(module.route);
+                }}
               >
                 Start Learning
               </button>

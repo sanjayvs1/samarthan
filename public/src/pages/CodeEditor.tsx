@@ -5,6 +5,7 @@ import { GoLightBulb } from "react-icons/go";
 
 import Confetti from "react-confetti";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "./redux";
 
 function CodeEditor() {
   const [question, setQuestion] = useState("");
@@ -43,9 +44,18 @@ function CodeEditor() {
     cpp: "// Write your C++ code here",
     c: "// Write your C code here",
   };
+  const courseQues = useAppSelector((zoom) => zoom.question.question);
+  const courseLang = useAppSelector((zoom) => zoom.question.language);
 
   // Fetch steps and start the timer
-  const fetchSteps = async (question: string) => {
+  useEffect(() => {
+    if (courseQues) {
+      setQuestion(courseQues);
+      fetchSteps(courseQues, courseLang);
+      console.log(1);
+    }
+  }, [courseQues]);
+  const fetchSteps = async (question: string, language: string) => {
     try {
       setLoading(true);
       setStartTime(Date.now());
@@ -255,7 +265,7 @@ function CodeEditor() {
               viewBox="0 0 16 16"
               fill="currentColor"
               className={`h-4 w-4 opacity-70 ${loading ? "hidden" : ""}`}
-              onClick={() => fetchSteps(question)}
+              onClick={() => fetchSteps(question, language)}
             >
               <path
                 fillRule="evenodd"
