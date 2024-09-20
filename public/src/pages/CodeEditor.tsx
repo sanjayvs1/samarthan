@@ -6,7 +6,6 @@ import { GoLightBulb } from "react-icons/go";
 import Confetti from "react-confetti";
 import { useNavigate } from "react-router-dom";
 
-
 function CodeEditor() {
   const [question, setQuestion] = useState("");
   const [steps, setSteps] = useState<any[]>([]);
@@ -29,11 +28,12 @@ function CodeEditor() {
   const [structResponse, setStructResponse] = useState<{ [key: string]: any }>(
     {}
   );
-  const [showCompletionPopup, setShowCompletionPopup] =
-    useState<boolean>(false);
+  const [showCompletionPopup, setShowCompletionPopup] = useState<boolean>(
+    false
+  );
   const [codeparseLoading, setcodeparseLoading] = useState<boolean>(false);
   const [codeparseError, setcodeparseError] = useState<boolean>(false);
- 
+
   let interval: NodeJS.Timeout;
   // Comment templates based on language
   const commentTemplates: { [key: string]: string } = {
@@ -96,10 +96,7 @@ function CodeEditor() {
       setStructResponse(structuredResponse);
       console.log(structuredResponse.isCorrect);
       console.log(structuredResponse);
-      setTimeout(() => {
-        const dialouge = document.getElementById('my_modal_1') as HTMLDialogElement;
-        dialouge.showModal()
-      }, 1000);
+
       if (structuredResponse.isCorrect) {
         setcodeparseError(false);
         setCompletedSteps((prev) => [...prev, currentStep]);
@@ -112,7 +109,12 @@ function CodeEditor() {
           setFinalTime(elapsedTime);
           setShowCompletionPopup(true); // Show completion popup
           setTimeout(() => setShowCompletionPopup(false), 2000);
-          
+          setTimeout(() => {
+            const dialouge = document.getElementById(
+              "my_modal_1"
+            ) as HTMLDialogElement;
+            dialouge.showModal();
+          }, 3000);
           console.log(finalTime);
         }
 
@@ -123,10 +125,8 @@ function CodeEditor() {
         setcodeparseError(true);
       }
     } catch (e) {
-      
       console.error(e);
     } finally {
-
       setcodeparseLoading(false);
     }
   };
@@ -166,7 +166,7 @@ function CodeEditor() {
   };
 
   const navigate = useNavigate();
-  
+
   return (
     <div className="container mx-auto p-4">
       {showCompletionPopup && (
@@ -184,18 +184,62 @@ function CodeEditor() {
           </h1>
         </div>
       )}
-     
-      <dialog id="my_modal_1" className="modal">
-        <div className="modal-box">
-          
+
+      <dialog id="my_modal_1" className="modal ">
+        <div className="modal-box rounded-lg shadow-lg p-6 bg-white text-black max-w-lg">
+          <h2 className="text-2xl font-bold mb-4 text-center">
+            Congratulations!
+          </h2>
+
+          <div className="divider"></div>
+
+          {/* Display the question */}
+          <div className="text-center mb-4">
+            <h3 className="text-lg font-semibold">Question:</h3>
+            <p className="text-xl capitalize text-gray-700 mt-2 font-bold ">
+              {question || "No question entered"}
+            </p>
+          </div>
+
+          {/* Display final time */}
+          <div className="flex justify-center space-x-8 mb-4">
+            <div className="text-center">
+              <span className="block text-4xl font-mono text-blue-500">
+                {days}
+              </span>
+              <span className="text-sm text-gray-500">Days</span>
+            </div>
+            <div className="text-center">
+              <span className="block text-4xl font-mono text-blue-500">
+                {hours}
+              </span>
+              <span className="text-sm text-gray-500">Hours</span>
+            </div>
+            <div className="text-center">
+              <span className="block text-4xl font-mono text-blue-500">
+                {minutes}
+              </span>
+              <span className="text-sm text-gray-500">Minutes</span>
+            </div>
+            <div className="text-center">
+              <span className="block text-4xl font-mono text-blue-500">
+                {seconds}
+              </span>
+              <span className="text-sm text-gray-500">Seconds</span>
+            </div>
+          </div>
+
           <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn" onClick={()=> {navigate("/Project")}}>Close</button>
-            </form>
+            <button
+              className="btn btn-primary"
+              onClick={() => navigate("/DetailsA")}
+            >
+              View Detailed Analysis
+            </button>
           </div>
         </div>
       </dialog>
+
       <div className="flex w-full justify-end items-center gap-x-4 mb-6">
         <div className="text-center w-1/2 mb-12 mr-auto ">
           <label className="input input-bordered flex items-center gap-2 mx-auto w-full ">
