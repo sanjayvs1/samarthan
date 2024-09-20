@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import CodeEditor from "./pages/CodeEditor";
 import Project from "./pages/Project";
 import DetailsA from "./pages/DetailsA";
@@ -13,10 +18,8 @@ import Profiles from "./pages/Profiles";
 import SwitchTest from "./pages/SwitchTest";
 
 function App() {
- 
   return (
     <>
-     
       <Router>
         <Routes>
           <Route path="/ai-tutor" element={<CodeEditor />} />
@@ -36,8 +39,8 @@ function App() {
             element={<QuestionPage module="JavaScript" />}
           />
           <Route path="/quiz/:id" element={<Quiz />} />
-          <Route path="/" element={<Login />} />
           <Route path="/SwitchTest" element={<SwitchTest />} />
+          <Route path="/" element={<Login />} />
         </Routes>
       </Router>
     </>
