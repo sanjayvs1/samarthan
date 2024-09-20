@@ -4,7 +4,7 @@ import ProfileCard from '../components/ProfileCard'
 
 const SelfProfile = () => {
     
-    const profile = useAppSelector((store) => store.randomUsers[0])
+    const profile = useAppSelector((store) => store.userInfo.userInfo)
   return (
     <div className="flex flex-wrap justify-center">
         <ProfileCard profile={profile} />

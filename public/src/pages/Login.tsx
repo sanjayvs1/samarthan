@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAsyncError, useNavigate } from "react-router-dom";
-import { setUserType, useAppDispatch, useAppSelector } from "./redux";
+import { setIncrementStar, setUserType, useAppDispatch, useAppSelector } from "./redux";
 import Header from "../components/Header";
 
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   return (
     
     <div className="flex relative items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
@@ -21,6 +22,7 @@ const Login = () => {
           <button
             className="btn btn-primary btn-lg text-white font-semibold py-3 rounded-md shadow-lg transition-all duration-300 ease-in-out hover:shadow-blue-500/50 focus:ring-4 focus:ring-blue-300"
             onClick={() =>{
+              dispatch(setUserType({ type: "user" }));
               navigate("/portal/student")}}
           >
             Student

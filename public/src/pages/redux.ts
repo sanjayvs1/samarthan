@@ -42,10 +42,14 @@ export const userSlice = createSlice({
     setUserTags: (state, action) => {
       state.userInfo!.tags = [...state.userInfo!.tags, action.payload.tag];
     },
-  },
+    setIncrementStar: (state,action)=>{
+      state.userInfo!.stars = state.userInfo!.stars+action.payload
+    },
+    
+  }
 });
 
-export const { setUserType, setUserTags } = userSlice.actions;
+export const { setUserType, setUserTags,setIncrementStar } = userSlice.actions;
 
 type RandomUsers = Array<UserInfo>;
 
