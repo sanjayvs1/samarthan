@@ -10,6 +10,7 @@ import {
   FaLinux,
 } from "react-icons/fa";
 import { setLanguage, setQuestion, useAppDispatch } from "./redux";
+import Header from "../components/Header";
 
 const Portal = () => {
   const navigate = useNavigate();
@@ -109,6 +110,7 @@ const Portal = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-10">
+      <Header/>
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-white text-center mb-10">
           Welcome to the Portal

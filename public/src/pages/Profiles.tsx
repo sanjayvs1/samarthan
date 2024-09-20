@@ -1,14 +1,13 @@
 import React from 'react'
 import ProfileCard from '../components/ProfileCard'
+import { useAppSelector } from './redux'
 
 const Profiles = () => {
-    function range(start:number, end:number) {
-        return Array.from({ length: end - start }, (_, i) => i + start);
-      }
+    const randomUser = useAppSelector((store) => store.randomUsers)
   return (
     <div className="flex flex-wrap justify-center">
-    {range(1,6).map(( index:number) => (
-      <ProfileCard key={index}  />
+    {randomUser.map(( profile,index:number) => (
+      <ProfileCard profile={profile}  />
     ))}
   </div>
   )

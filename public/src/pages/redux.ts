@@ -55,8 +55,9 @@ const initialRandomUsers: RandomUsers = [
     username: "Dipesh Mishra",
     collegeName: "Pillai College of Engineering",
     year: "Ty",
-    stars: 3,
+    stars: 1,
     tags: ["ai", "ml"],
+    
   },
   {
     type: "user",
@@ -65,6 +66,7 @@ const initialRandomUsers: RandomUsers = [
     year: "Sy",
     stars: 2,
     tags: ["webdev", "android"],
+    
   },
   {
     type: "user",
@@ -73,19 +75,21 @@ const initialRandomUsers: RandomUsers = [
     year: "Fy",
     stars: 1,
     tags: ["ai", "webdev"],
+   
   },
   {
     type: "user",
     username: "Suresh Reddy",
     collegeName: "Pillai College of Engineering",
     year: "Sy",
-    stars: 3,
+    stars: 1,
     tags: ["android", "ml"],
+    
   },
   {
     type: "user",
     username: "Pooja Singh",
-    collegeName: "Pillai College of Engineering",
+    collegeName: "Pillai College of Engineering?apikey=LfMK8pr4mPhXew",
     year: "Ty",
     stars: 2,
     tags: ["webdev", "ai"],
@@ -101,9 +105,9 @@ const initialRandomUsers: RandomUsers = [
   {
     type: "user",
     username: "Ayesha Khan",
-    collegeName: "Pillai College of Engineering",
+    collegeName: "Pillai College of Engineering?apikey=LfMK8pr4mPhXew",
     year: "Sy",
-    stars: 3,
+    stars: 1,
     tags: ["webdev", "ml"],
   },
   {
