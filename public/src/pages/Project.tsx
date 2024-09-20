@@ -7,15 +7,25 @@ interface MermaidDiagramProps {
 }
 
 const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
+    const [isChartLoaded, setIsChartLoaded] = useState(false);
     const chartRef = useRef(null);
 
+    
+
+    // useEffect(() => {
+    //     if (chart) {
+    //         mermaid.initialize({ startOnLoad: true });
+    //         mermaid.contentLoaded();
+    //     }
+    // }, [chart]);
+
     useEffect(() => {
-        if (chart) {
+        if (chart && !isChartLoaded) {
             mermaid.initialize({ startOnLoad: true });
             mermaid.contentLoaded();
+            setIsChartLoaded(true);
         }
     }, [chart]);
-
     return (
         <div>
             <div ref={chartRef} className="mermaid">
@@ -26,26 +36,31 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
 };
 
 const Project = () => {
+    const [loading, setLoading] = useState<boolean>(false);
     const fetchDiagram = async (question: string) => {
-        const {data} = await axios.post("http://localhost:5000/generate-diagram", { prompt: question })
+        setLoading(true)
+
+        const { data } = await axios.post("http://localhost:5000/generate-diagram", { prompt: question })
         setDiagram(data.diagram);
+        console.log(data.diagram)
+        setLoading(false)
     }
     const [question, setQuestion] = useState("");
     const diagramCode: string = `
-    graph TD;
-      Bruh-->B;
-      A-->C;
-      B-->D;
-      C-->D;
-      D-->A;
+    graph TD
+      Bruh-->B
+      A-->C
+      B-->D
+      C-->D
+      D-->A
   `;
-  const [diagram, setDiagram] = useState(diagramCode);
+    const [diagram, setDiagram] = useState(diagramCode);
 
     return (
         <div>
-            <div className="container mx-auto p-4">
+            <div className="container mx-auto p-4 max-w-4xl">
                 <div className="flex flex-col w-full justify-end items-center gap-x-4 mb-6">
-                    <div className="text-center w-1/2 mb-12 mr-auto ">
+                    <div className="text-center w-1/2 mb-12 mr-auto mx-auto ">
                         <label className="input input-bordered flex items-center gap-2 mx-auto w-full ">
                             <input
                                 type="text"
@@ -58,7 +73,7 @@ const Project = () => {
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 16 16"
                                 fill="currentColor"
-                                className={`h-4 w-4 opacity-70 false ? "hidden" : ""}`}
+                                className={`h-4 w-4 opacity-70 ${loading ? "hidden" : ""}`}
                                 onClick={() => fetchDiagram(question)}
                             >
                                 <path
@@ -71,7 +86,9 @@ const Project = () => {
                     </div>
                 </div>
                 <h3 className="text-lg font-bold mb-3">Project Roadmap</h3>
-                <MermaidDiagram chart={diagram} />
+                <MermaidDiagram key={diagram} chart={diagram} />
+                <br />
+                <h3 className="text-lg font-bold mb-3">Detailed Explanation</h3>
             </div>
         </div>
     )

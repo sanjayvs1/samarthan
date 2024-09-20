@@ -491,7 +491,7 @@ Note: We are currently at step ${currentStep +
 });
 
 const diagramPrompts = {
-  mermaid: `Generate a Mermaid diagram based on the following prompt: {{PROMPT}}. The diagram should be in Mermaid syntax.`,
+  mermaid: `Generate a Mermaid diagram based on the following prompt: {{PROMPT}}. The diagram should be in Mermaid syntax. Give me only the Mermaid diagram with semicolons at the end of every line as output, no other text.`,
 };
 
 // Endpoint to generate diagrams based on the prompt
@@ -523,8 +523,12 @@ app.post("/generate-diagram", async (req, res) => {
     let generatedDiagram = result.response.text();
     // Clean the response if needed
     generatedDiagram = generatedDiagram.trim();
-
+    if( generatedDiagram.startsWith("\`\`\`mermaid") ) {
+      generatedDiagram = generatedDiagram.slice(10, -3);
+    }
+    //slice(10, -3)
     // Return the diagram content
+    console.log(generatedDiagram)
     res.json({ diagram: generatedDiagram });
   } catch (error) {
     console.error("Error generating diagram:", error);
@@ -572,6 +576,35 @@ app.post("/generate-hints", async (req, res) => {
     res.status(500).json({ error: "Error generating hints" });
   }
 });
+
+const roadmapPrompt = `
+Given the following steps, provide a hint for each step. The hints should help clarify the step without giving away the solution directly.
+
+Steps:
+{{title}}
+
+Hints:
+`;
+
+// app.post("/generate-roadmap", async (req,res) => {
+//   const {topic} = req.body;
+//   const finalPrompt = roadmapPrompt.replace("{{title}}", topic);
+//   try {
+//     const chatSession = model.startChat({
+//       generationConfig,
+//       history: [],
+//     });
+//     const result = await chatSession.sendMessage(finalPrompt);
+//     let  = result.response.text();
+//     // Clean the response if needed
+//     generatedHints = generatedHints.trim();
+
+//     res.json({ hints: generatedHints });
+//   } catch (error) {
+//     console.error("Error generating hints:", error);
+//     res.status(500).json({ error: "Error generating hints" });
+//   }
+// })
 
 // Start the server
 const port = process.env.PORT || 5000;
