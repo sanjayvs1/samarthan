@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import CodeEditor from "./pages/CodeEditor";
 import Project from "./pages/Project";
 import DetailsA from "./pages/DetailsA";
@@ -10,12 +15,11 @@ import Quiz from "./pages/Quiz";
 // Import FontAwesome for profile icon (optional)
 import SelfProfile from "./pages/SelfProfile";
 import Profiles from "./pages/Profiles";
+import SwitchTest from "./pages/SwitchTest";
 
 function App() {
- 
   return (
     <>
-     
       <Router>
         <Routes>
           <Route path="/ai-tutor" element={<CodeEditor />} />
@@ -35,6 +39,7 @@ function App() {
             element={<QuestionPage module="JavaScript" />}
           />
           <Route path="/quiz/:id" element={<Quiz />} />
+          <Route path="/SwitchTest" element={<SwitchTest />} />
           <Route path="/" element={<Login />} />
         </Routes>
       </Router>

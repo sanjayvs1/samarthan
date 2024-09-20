@@ -382,7 +382,7 @@ const QuestionsPage: React.FC<QuestionsPageProps> = ({ module }) => {
                 </p>
               </div>
               <div className="basis-4/12 ">
-                <button className="btn-primary btn ">Solve</button>
+                <button className="btn-primary btn text-white ">Solve</button>
               </div>
             </li>
           ))}
