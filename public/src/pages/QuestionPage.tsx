@@ -369,16 +369,21 @@ const QuestionsPage: React.FC<QuestionsPageProps> = ({ module }) => {
           {questions.map((q) => (
             <li
               key={q.id}
-              className="card bg-white shadow-lg rounded-lg p-4 transition-transform transform hover:scale-105"
+              className="card bg-white shadow-lg rounded-lg p-4 transition-transform transform hover:scale-105 relative grid grid-cols-1 md:grid-cols-[1fr_auto] items-center"
             >
-              <p
-                className="text-lg font-semibold text-gray-800"
-                onClick={() => {
-                  handleclick(q.question);
-                }}
-              >
-                {q.question}
-              </p>
+              <div className="basis-8/12">
+                <p
+                  className="text-lg font-semibold text-gray-800 "
+                  onClick={() => {
+                    handleclick(q.question);
+                  }}
+                >
+                  {q.question}
+                </p>
+              </div>
+              <div className="basis-4/12 ">
+                <button className="btn-primary btn ">Solve</button>
+              </div>
             </li>
           ))}
         </ul>
