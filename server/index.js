@@ -576,6 +576,75 @@ app.post("/generate-hints", async (req, res) => {
     res.status(500).json({ error: "Error generating hints" });
   }
 });
+app.post("/generate-references", async (req, res) => {
+  const { project } = req.body;
+
+  // Basic validation
+  if (!project || typeof project !== "string" ) {
+    return res.status(400).json({
+      error: "Invalid input. 'project' and 'references' must be provided and should be strings.",
+    });
+  }
+
+  // Construct the prompt for the AI model
+  const prompt = `Given the project titled "${project}" where according to the project provide references like websites or youtube channels along with playlists revelant to the project mentioned (limit it to 3 to 4 references and make thoer description short).`;
+
+  try {
+    const chatSession = model.startChat({
+      generationConfig,
+      history: [],
+    });
+
+    // Generate recommendations
+    const result = await chatSession.sendMessage(prompt);
+    let recommendedReferences = result.response.text();
+
+    // Clean the response if needed
+    recommendedReferences = recommendedReferences.trim();
+
+    // Return the recommended references
+    res.json({ recommendedReferences });
+  } catch (error) {
+    console.error("Error generating references:", error);
+    res.status(500).json({ error: "Error generating references" });
+  }
+});
+app.post("/generate-errors", async (req, res) => {
+  const { project } = req.body;
+
+  // Basic validation
+  if (!project || typeof project !== "string") {
+    return res.status(400).json({
+      error: "Invalid input. 'project' must be provided as a non-empty string.",
+    });
+  }
+
+  // Construct the prompt using the project description
+  const finalPrompt = `The following is a project description:\n"${project}"\n\nPlease provide a list of common errors or issues that might occur in this type of project, and explain each briefly also add syntax errors faced. Keep the list concise.`;
+
+  try {
+    const chatSession = model.startChat({
+      generationConfig: {
+        ...generationConfig,
+         // Limit the response length to keep errors concise
+      },
+      history: [],
+    });
+
+    const result = await chatSession.sendMessage(finalPrompt);
+    let generatedErrors = result.response.text();
+    
+    // Clean the response if needed
+    generatedErrors = generatedErrors.trim();
+
+    // Return the popular errors
+    res.json({ errors: generatedErrors });
+  } catch (error) {
+    console.error("Error generating errors:", error);
+    res.status(500).json({ error: "Error generating popular errors" });
+  }
+});
+
 
 const roadmapPrompt = `
 Given the following steps, provide a hint for each step. The hints should help clarify the step without giving away the solution directly.
