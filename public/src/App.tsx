@@ -10,6 +10,7 @@ import Quiz from "./pages/Quiz";
 // Import FontAwesome for profile icon (optional)
 import SelfProfile from "./pages/SelfProfile";
 import Profiles from "./pages/Profiles";
+import SwitchTest from "./pages/SwitchTest";
 
 function App() {
  
@@ -36,6 +37,7 @@ function App() {
           />
           <Route path="/quiz/:id" element={<Quiz />} />
           <Route path="/" element={<Login />} />
+          <Route path="/SwitchTest" element={<SwitchTest />} />
         </Routes>
       </Router>
     </>
