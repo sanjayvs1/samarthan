@@ -118,6 +118,7 @@ const Portal = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-10">
       <Header />
+      <button className="btn btn-accent absolute top-10 right-10" onClick={()=>navigate('/create-room')}>Join Meeting</button>
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-white text-center mb-10">
           Welcome to the Portal
