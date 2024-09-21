@@ -22,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/ai-tutor" element={<CodeEditor />} />
           <Route path="/project-roadmap" element={<Project />} />
-          <Route path="/DetailsA" element={<DetailsA />} />
+          <Route path="/DetailsA/:id" element={<DetailsA />} />
           <Route path="/portal/*" element={<Portal />} />
           <Route path="/module/java" element={<QuestionPage module="Java" />} />
           <Route path="/forum" element={<ForumPage />} />

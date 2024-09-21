@@ -731,6 +731,53 @@ app.post("/quiz/generate", async (req, res) => {
   }
 });
 
+const approachPrompt = `Task: Provide a comprehensive response to a given coding question, outlining multiple approaches, code examples, and explanations for each. Do not return anything except JSON.
+
+Output Format: JSON
+
+JSON Structure:
+{
+  "question": "Reverse a linked list",
+  "approaches": [
+    {
+      "name": "Iterative Approach",
+      "description": "Iterate through the linked list, keeping track of the previous and current nodes.",
+      "complexity": "Time complexity: O(n), Space complexity: O(1)"
+    },
+    {
+      "name": "Recursive Approach",
+      "description": "Recursively reverse the linked list, starting from the tail.",
+      "complexity": "Time complexity: O(n), Space complexity: O(n) due to recursion"
+    }
+  ],
+  "optimalSolution": 0 
+}
+
+Topic:
+{{topic}}
+`;
+
+app.post("/detaila", async (req, res) => {
+  const { topic } = req.body;
+  const finalPrompt = approachPrompt.replace("{{topic}}", topic);
+  try {
+    const chatSession = model.startChat({
+      generationConfig,
+      history: [],
+    });
+    const result = await chatSession.sendMessage(finalPrompt);
+    let quiz = result.response.text();
+    quiz = quiz
+      .trim()
+      .replace(/```json/g, "")
+      .replace(/```/g, "");
+    res.json(quiz);
+  } catch (error) {
+    console.error("Error generating quiz:", error);
+    res.status(500).json({ error: "Error generating quiz" });
+  }
+});
+
 app.post("/execute", (req, res) => {
   const { code } = req.body;
   const code2 = code.replace(/"/g, "'");
@@ -742,6 +789,65 @@ app.post("/execute", (req, res) => {
     console.log(data);
     res.json(data);
   });
+});
+
+
+const evalPrompt = `You are an expert programming evaluator. Your task is to assess a given program based on two criteria:
+1. How effectively it solves the stated problem
+2. The time spent developing the solution
+
+You will be provided with the following information:
+1. A problem statement
+2. The submitted program code
+3. The time spent (in seconds) on developing the solution
+
+Evaluate the program and assign a score out of 10, where:
+- 0 represents a completely incorrect or non-functional solution
+- 5 represents a partially correct solution or one with significant room for improvement
+- 10 represents a perfect solution achieved in an impressively short time
+
+Consider the following in your evaluation:
+- Correctness: Does the program solve the stated problem accurately?
+- Efficiency: Is the solution optimized, or are there obvious inefficiencies?
+- Readability: Is the code well-structured and easy to understand?
+- Time spent: Is the time spent reasonable for the complexity of the problem?
+
+Provide your evaluation score as a JSON object in the following format:
+{
+  "score": X
+}
+
+Where X is your score from 0 to 10, rounded to one decimal place. Give score 10 for perfect program code
+
+Example input:
+Problem statement:{{question}}
+Program code:
+{{code}}
+Time spent: {{time}} seconds
+
+Your task is to evaluate the given program based on the criteria mentioned above and return a score out of 10 in the specified JSON format. Do to not return anything else.
+`;
+
+app.post("/evaluate", async (req, res) => {
+  const { question, code, time } = req.body;
+  const finalPrompt = evalPrompt.replace("{{question}}", question).replace("{{code}}", code).replace("{{time}}", time);
+
+  try {
+    const chatSession = model.startChat({
+      generationConfig,
+      history: [],
+    });
+    const result = await chatSession.sendMessage(finalPrompt);
+    let data = result.response.text();
+    data = data
+      .trim()
+      .replace(/```json/g, "")
+      .replace(/```/g, "");
+    res.json(data);
+  } catch (error) {
+    console.error("Error generating quiz:", error);
+    res.json({ score: 0 });
+  }
 });
 
 // Start the server

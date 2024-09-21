@@ -253,10 +253,10 @@ function CodeEditor() {
               <button
                 className="btn "
                 onClick={() => {
-                  navigate("/portal/student");
+                  navigate(`/DetailsA/${question}`);
                 }}
               >
-                Close
+                Detailed Analysis
               </button>
             </form>
           </div>
