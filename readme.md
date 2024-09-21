@@ -5,6 +5,9 @@
 
 ## 🚀 Problem Statement: Educational Coding Platform
 
+[![Live Demo](https://img.shields.io/badge/demo-live-green.svg)](https://hc-front.vercel.app/)
+
+
 ### Abstract
 
 This project presents an AI-powered educational platform that enhances learning and streamlines talent acquisition. It integrates an AI tutor, roadmap generator, assessment portal, module-based learning, and a discussion forum. The platform features personalized guidance, dynamic question generation, quiz-based performance rankings, and visual timelines for projects. Students can connect with teachers for interviews or assignments based on their quiz performance, facilitating the discovery of talent for internships and professional opportunities. This solution revolutionizes technology education by combining AI-assisted learning, project management, assessments, and talent discovery.
@@ -55,17 +58,29 @@ npm i groq-sdk
 
 </details>
 
-## ✨ Features
+## ✨ Key Features
 
-Our objective is to develop a comprehensive, end-to-end solution that empowers users throughout their learning journey—from beginner to capable developer. The platform enables:
+Our AI-powered educational platform offers:
 
-- Free exploration through an AI tutor
-- Descriptive error handling and solutions
-- Visualized project roadmaps for effective learning
-- Module-based learning and skill assessment
-- Connects capable students with professors for internships
+1. **AI Tutor**: Personalized guidance and free exploration of coding concepts.
 
-### Key Features
+2. **Error Handling**: Detailed explanations and solutions for coding errors.
+
+3. **Project Roadmaps**: Visualized timelines for effective learning paths.
+
+4. **Module-based Learning**: Structured courses with interactive skill assessments.
+
+5. **Talent Discovery**: Connects top-performing students with internship opportunities.
+
+6. **AI-Powered Assignments**: Teacher-created tasks with automated grading and feedback.
+
+7. **Discussion Forum**: Peer-to-peer learning with AI-assisted responses.
+
+8. **Assessment Portal**: Comprehensive tracking of progress and skill development.
+
+This end-to-end solution empowers users from beginner to professional level, integrating AI-assisted learning, project management, and talent acquisition.
+
+###  Features
 
 <details>
 <summary>1. AI Tutor</summary>
@@ -129,30 +144,27 @@ Our objective is to develop a comprehensive, end-to-end solution that empowers u
 - **Quizzes:** Dynamically generated questions; students are graded and selected for interviews based on their scores
 
 ## 📸 Screenshots
+1. Home page
+
 ![image](https://github.com/user-attachments/assets/dbd8f77f-59f1-4e40-8061-24e74f183aa8)
+
+
+2. AI based code editor
+   
 ![image](https://github.com/user-attachments/assets/d917f7f7-b199-4a88-b6e4-1e6d70c072b8)
 
+3. Quiz Interface Screenshot
+   
+![image](https://github.com/user-attachments/assets/8d5c2a00-c14f-44c2-ba88-a7f456f580d1)
 
+4.Project Roadmap Generator
 
-<details>
-<summary>Click to view screenshots</summary>
+![image](https://github.com/user-attachments/assets/18e12cff-707a-47b0-bc98-47e9fa2ab816)
 
-1. AI Tutor Screenshot
-   ![AI Tutor](https://placeholder.com/ai-tutor)
+5.Discussion Forum Screenshot
 
-2. Project Roadmap Generator Screenshot
-   ![Project Roadmap](https://placeholder.com/project-roadmap)
+![image](https://github.com/user-attachments/assets/659cd774-67ad-40d3-8e70-d6a627dbfa82)
 
-3. Module-Based Learning Screenshot
-   ![Module Learning](https://placeholder.com/module-learning)
-
-4. Quiz Interface Screenshot
-   ![Quiz Interface](https://placeholder.com/quiz-interface)
-
-5. Discussion Forum Screenshot
-   ![Discussion Forum](https://placeholder.com/discussion-forum)
-
-</details>
 
 ## 🔮 Future Enhancements
 
