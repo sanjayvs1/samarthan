@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 // const { exec } = require("child_process");
 const adminLogin = require("./models/adminAuth");
+const postQuestion = require("./models/questionModel");
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const mongoose = require("mongoose");
@@ -367,6 +368,17 @@ app.post("/authAdmin", async (req, res) => {
     }
   } catch (e) {
     console.log("not");
+  }
+});
+
+app.post("/uploadQuestion", async (req, res) => {
+  try {
+    const { question, lang } = req.body;
+    console.log(question, lang);
+    const data = await postQuestion.create({ question, language: lang });
+    return res.json({ data });
+  } catch (e) {
+    console.log(e);
   }
 });
 
@@ -809,7 +821,6 @@ app.post("/execute", (req, res) => {
   });
 });
 
-
 const evalPrompt = `You are an expert programming evaluator. Your task is to assess a given program based on two criteria:
 1. How effectively it solves the stated problem
 2. The time spent developing the solution
@@ -848,7 +859,10 @@ Your task is to evaluate the given program based on the criteria mentioned above
 
 app.post("/evaluate", async (req, res) => {
   const { question, code, time } = req.body;
-  const finalPrompt = evalPrompt.replace("{{question}}", question).replace("{{code}}", code).replace("{{time}}", time);
+  const finalPrompt = evalPrompt
+    .replace("{{question}}", question)
+    .replace("{{code}}", code)
+    .replace("{{time}}", time);
 
   try {
     const chatSession = model.startChat({

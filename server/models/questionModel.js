@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 
 const AdminQuestionSchema = mongoose.Schema(
   {
-    question: {
-      text: { type: String },
-    },
+    question: { type: String },
     language: { type: String },
   },
   {
