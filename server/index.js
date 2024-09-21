@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const { exec } = require("child_process");
+// const { exec } = require("child_process");
+const adminLogin = require("./models/adminAuth");
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const mongoose = require("mongoose");
@@ -351,6 +352,24 @@ For example, for the question "How to implement a function to add two numbers in
 `,
 };
 
+app.post("/authAdmin", async (req, res) => {
+  try {
+    const { adminName, password } = req.body;
+    const data = await adminLogin.findOne({
+      adminName: adminName,
+    });
+    if (password !== data.password) return;
+    console.log(data);
+    if (data) {
+      return res.json({ success: true });
+    } else {
+      return res.json({ success: false });
+    }
+  } catch (e) {
+    console.log("not");
+  }
+});
+
 // console.log(prompts);
 app.post("/generate-code", async (req, res) => {
   const { prompt, language } = req.body;
@@ -465,9 +484,8 @@ The evaluation should consider:
   ]
 }
 
-Note: We are currently at step ${
-    currentStep + 1
-  }. Evaluate the user's code with this context in mind and provide the structured JSON response accordingly.
+Note: We are currently at step ${currentStep +
+    1}. Evaluate the user's code with this context in mind and provide the structured JSON response accordingly.
 `;
 
   try {
