@@ -39,7 +39,6 @@ const Project = () => {
     const fetchDiagram = async (question: string) => {
         const { data } = await axios.post("http://localhost:5000/generate-diagram", { prompt: question })
         setDiagram(data.diagram);
-        console.log(data.diagram)
     }
     useEffect(()=>{
         if(theoryQuestion) {
@@ -53,7 +52,6 @@ const Project = () => {
         fetchDiagram(question);
         const { data } = await axios.post("http://localhost:5000/generate-roadmap", { topic: question })
         setResult(data.result);
-        console.log(data.result)
         setLoading(false)
     }
     const diagramCode: string = `

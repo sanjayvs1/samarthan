@@ -74,6 +74,15 @@ function CodeEditor() {
     }
   };
 
+  const runCode = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:5000/execute", { code:code });
+      setConsoleLogs(String(data.output))
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   useEffect(() => {
     if (steps.length > 0) {
       const step = steps[currentStep];
@@ -380,13 +389,11 @@ function CodeEditor() {
               {steps.map((step, index) => (
                 <li
                   key={step.step_id}
-                  className={`step ${
-                    currentStep === index ? "step-primary" : ""
-                  } ${
-                    index > currentStep && !completedSteps.includes(index)
+                  className={`step ${currentStep === index ? "step-primary" : ""
+                    } ${index > currentStep && !completedSteps.includes(index)
                       ? "step-disabled"
                       : ""
-                  }`}
+                    }`}
                   onClick={() => handleStepClick(index)}
                 >
                   {step.step_title}
@@ -406,12 +413,12 @@ function CodeEditor() {
               value={code}
               onChange={(value) => setCode(value || "")}
               theme={theme}
-              // options={{
-              //   readOnly: completedSteps.includes(currentStep),
-              // }}
+            // options={{
+            //   readOnly: completedSteps.includes(currentStep),
+            // }}
             />
           </div>
-          <div className="flex gap-x-16 items-center justify-between pr-14">
+          <div className="flex gap-x-2 items-center pr-14">
             {codeparseLoading ? (
               <span className="loading loading-dots loading-lg text-primary"></span>
             ) : (
@@ -426,6 +433,9 @@ function CodeEditor() {
                 Submit
               </button>
             )}
+            <button className="btn btn-primary" onClick={runCode}>
+                Run Code
+              </button>
             {codeparseError && (
               <div className="badge badge-error gap-2">
                 <svg

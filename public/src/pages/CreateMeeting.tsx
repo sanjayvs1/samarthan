@@ -45,23 +45,27 @@ const JoinMeeting: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-base-200 flex items-center justify-center p-4">
       {!isAllowed ? (
-        <div>
-          <h2>Enter Meeting Code</h2>
-          <input
-            type="text"
-            value={meetingCode}
-            onChange={(e) => setMeetingCode(e.target.value)}
-            placeholder="Enter code"
-          />
-          <button onClick={handleJoin}>Join Meeting</button>
+        <div className="card w-96 bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title text-2xl mb-4">Enter Meeting Code</h2>
+            <input
+              type="text"
+              value={meetingCode}
+              onChange={(e) => setMeetingCode(e.target.value)}
+              placeholder="Enter code"
+              className="input input-bordered w-full mb-4"
+            />
+            <button onClick={handleJoin} className="btn btn-primary">
+              Join Meeting
+            </button>
+          </div>
         </div>
       ) : (
         <div
-          className="myCallContainer"
+          className="myCallContainer w-full h-screen"
           ref={myMeeting}
-          style={{ width: "100%", height: "100vh" }}
         ></div>
       )}
     </div>
