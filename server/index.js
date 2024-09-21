@@ -359,8 +359,8 @@ app.post("/authAdmin", async (req, res) => {
     const data = await adminLogin.findOne({
       adminName: adminName,
     });
+    console.log(adminName, password);
     if (password !== data.password) return;
-    console.log(data);
     if (data) {
       return res.json({ success: true });
     } else {
@@ -374,12 +374,20 @@ app.post("/authAdmin", async (req, res) => {
 app.post("/uploadQuestion", async (req, res) => {
   try {
     const { question, lang } = req.body;
-    console.log(question, lang);
+
+    // Assuming you want to store the question and language in a database.
     const data = await postQuestion.create({ question, language: lang });
     return res.json({ data });
   } catch (e) {
-    console.log(e);
+    console.error(e);
+    res.status(500).json({ error: "Server Error" });
   }
+});
+app.get("/getQuestions", async (req, res) => {
+  try {
+    const data = await postQuestion.find();
+    res.json({ questions: data });
+  } catch (e) {}
 });
 
 // console.log(prompts);

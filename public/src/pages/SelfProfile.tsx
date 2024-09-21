@@ -43,6 +43,12 @@ const SelfProfile = () => {
   const navigate = useNavigate();
   return (
     <div className="flex flex-wrap flex-col justify-center items-center gap-y-4">
+      <button
+        className="btn btn-warning absolute top-16 left-10 font-bold px-12"
+        onClick={() => navigate("/admin/create-assignment")}
+      >
+        Create assignment
+      </button>
       <div className="w-full flex justify-center items-center">
         <ProfileCard profile={profile} />
       </div>
