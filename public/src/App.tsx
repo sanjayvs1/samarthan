@@ -14,6 +14,7 @@ import Profiles from "./pages/Profiles";
 import SwitchTest from "./pages/SwitchTest";
 import CreateMeeting from "./pages/CreateMeeting";
 import AdministratorLogin from "./pages/AdministratorLogin";
+import CreateAssignment from "./pages/CreateAsssignment";
 
 function App() {
   return (
@@ -41,6 +42,11 @@ function App() {
           <Route path="/SwitchTest" element={<SwitchTest />} />
           <Route path="/create-room" element={<CreateMeeting />} />
           <Route path="/AdministratorLogin" element={<AdministratorLogin />} />
+          <Route
+            path="/admin/create-assignment"
+            element={<CreateAssignment />}
+          />
+
           <Route path="/" element={<Login />} />
         </Routes>
       </Router>
