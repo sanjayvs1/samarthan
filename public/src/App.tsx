@@ -16,6 +16,7 @@ import Quiz from "./pages/Quiz";
 import SelfProfile from "./pages/SelfProfile";
 import Profiles from "./pages/Profiles";
 import SwitchTest from "./pages/SwitchTest";
+import CreateMeeting from "./pages/CreateMeeting";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           />
           <Route path="/quiz/:id" element={<Quiz />} />
           <Route path="/SwitchTest" element={<SwitchTest />} />
+          <Route path="/create-room" element={<CreateMeeting />} />
           <Route path="/" element={<Login />} />
         </Routes>
       </Router>
