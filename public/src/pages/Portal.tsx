@@ -9,7 +9,7 @@ import {
   FaDatabase,
   FaLinux,
 } from "react-icons/fa";
-import { setLanguage, setQuestion, useAppDispatch } from "./redux";
+import { setLanguage, setQuestion, useAppDispatch, useAppSelector } from "./redux";
 import Header from "../components/Header";
 
 const Portal = () => {
@@ -114,11 +114,12 @@ const Portal = () => {
 
   const dispatch = useAppDispatch();
   dispatch(setQuestion({ question: "" }));
+  const isAdmin = useAppSelector((zoom)=>zoom.userInfo.userInfo?.type)==="admin"
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-10">
       <Header />
-      <button className="btn btn-accent absolute top-10 right-10" onClick={()=>navigate('/create-room')}>Join Meeting</button>
+      {!isAdmin && <button className="btn btn-accent absolute top-10 right-10" onClick={()=>navigate('/create-room')}>Join Meeting</button>}
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-white text-center mb-10">
           Welcome to the Portal
