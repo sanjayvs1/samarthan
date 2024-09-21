@@ -1,43 +1,42 @@
-import React from "react";
-import { useAppSelector } from "./redux";
-import ProfileCard from "../components/ProfileCard";
-import { FaDatabase, FaJsSquare, FaLinux, FaReact } from "react-icons/fa";
+import { FaBrain, FaCode, FaDatabase, FaRobot } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import ProfileCard from "../components/ProfileCard";
+import { useAppSelector } from "./redux";
 
 const SelfProfile = () => {
   const profile = useAppSelector((store) => store.userInfo.userInfo);
   const testingModules = [
     {
-      icon: <FaJsSquare className="text-yellow-500 text-4xl mb-4" />,
-      title: "Learn artificialintelligence",
+      icon: <FaBrain className="text-purple-500 text-4xl mb-4" />,
+      title: "Learn Artificial Intelligence",
       description:
-        "Master Express.js and develop server-side applications with Node.js, routing, and middleware.",
+        "Explore the fundamentals of AI, including machine learning, neural networks, and natural language processing.",
       questions: 80,
-      route: "/quiz/artificialintelligence",
+      route: "/quiz/artificial-intelligence",
     },
     {
-      icon: <FaReact className="text-blue-500 text-4xl mb-4" />,
-      title: "Learn machinelearning",
+      icon: <FaRobot className="text-blue-500 text-4xl mb-4" />,
+      title: "Learn Machine Learning",
       description:
-        "Master React.js, create dynamic UIs, and learn about state management, hooks, and more.",
+        "Master machine learning algorithms, data preprocessing, model evaluation, and implementation using popular libraries.",
       questions: 100,
-      route: "/quiz/machinelearning",
+      route: "/quiz/machine-learning",
     },
     {
-      icon: <FaDatabase className="text-green-500 text-4xl mb-4" />,
-      title: "Learn typescript",
+      icon: <FaCode className="text-blue-400 text-4xl mb-4" />,
+      title: "Learn TypeScript",
       description:
-        "Master SQL database querying and learn how to handle data with relational databases.",
+        "Master TypeScript, including static typing, interfaces, generics, and its integration with popular frameworks.",
       questions: 70,
       route: "/quiz/typescript",
     },
     {
-      icon: <FaLinux className="text-gray-500 text-4xl mb-4" />,
-      title: "Learn mongoDB",
+      icon: <FaDatabase className="text-green-500 text-4xl mb-4" />,
+      title: "Learn MongoDB",
       description:
-        "Explore Linux commands, shell scripting, file systems, and server administration.",
+        "Explore MongoDB, including document model, CRUD operations, indexing, and integration with server-side applications.",
       questions: 90,
-      route: "/quiz/mongoDB",
+      route: "/quiz/mongodb",
     },
   ];
 
@@ -64,7 +63,7 @@ const SelfProfile = () => {
               className="btn btn-accent"
               onClick={() => navigate(module.route)}
             >
-              Start Testing
+              Start Test
             </button>
           </div>
         ))}

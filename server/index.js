@@ -663,7 +663,7 @@ app.post("/generate-errors", async (req, res) => {
 });
 
 const roadmapPrompt = `
-Generate a detailed roadmap for the project topic mentioned below. Mention Tech Stack.
+Generate a detailed roadmap for the project topic mentioned below. Mention Tech Stack. Give me steps to learn and complete building the project.
 
 Topic:
 {{title}}

@@ -10,6 +10,7 @@ interface UserInfo {
   year: string;
   stars: number;
   tags: Array<any>;
+  email: string;
 }
 
 // Define the initial state for the question slice
@@ -27,6 +28,7 @@ const initialState: AuthInitialState = {
     year: "Ty",
     stars: 0,
     tags: [],
+    email: "mavinash422@gmail.com",
   },
 };
 
@@ -60,6 +62,7 @@ const initialRandomUsers: RandomUsers = [
     year: "Ty",
     stars: 1,
     tags: ["ai", "ml"],
+    email: "dipeshmishra@pillai.edu.in",
   },
   {
     type: "user",
@@ -68,6 +71,7 @@ const initialRandomUsers: RandomUsers = [
     year: "Sy",
     stars: 2,
     tags: ["webdev", "android"],
+    email: "rahulpatel@pillai.edu.in",
   },
   {
     type: "user",
@@ -76,6 +80,7 @@ const initialRandomUsers: RandomUsers = [
     year: "Fy",
     stars: 1,
     tags: ["ai", "webdev"],
+    email: "anjali.gupta@pillai.edu.in",
   },
   {
     type: "user",
@@ -84,6 +89,7 @@ const initialRandomUsers: RandomUsers = [
     year: "Sy",
     stars: 1,
     tags: ["android", "ml"],
+    email: "sureshreddy@pillai.edu.in",
   },
   {
     type: "user",
@@ -92,6 +98,7 @@ const initialRandomUsers: RandomUsers = [
     year: "Ty",
     stars: 2,
     tags: ["webdev", "ai"],
+    email: "pooja.singh@pillai.edu.in",
   },
   {
     type: "user",
@@ -100,6 +107,7 @@ const initialRandomUsers: RandomUsers = [
     year: "Ty",
     stars: 1,
     tags: ["ml", "android"],
+    email: "ravi.kumar@pillai.edu.in",
   },
   {
     type: "user",
@@ -108,6 +116,7 @@ const initialRandomUsers: RandomUsers = [
     year: "Sy",
     stars: 1,
     tags: ["webdev", "ml"],
+    email: "ayesha.khan@pillai.edu.in",
   },
   {
     type: "user",
@@ -116,6 +125,7 @@ const initialRandomUsers: RandomUsers = [
     year: "Fy",
     stars: 2,
     tags: ["android", "react"],
+    email: "sahilsharma@pillai.edu.in",
   },
   {
     type: "user",
@@ -124,6 +134,7 @@ const initialRandomUsers: RandomUsers = [
     year: "Ty",
     stars: 1,
     tags: ["ml", "ai"],
+    email: "nidhi.verma@pillai.edu.in",
   },
   {
     type: "user",
@@ -132,6 +143,7 @@ const initialRandomUsers: RandomUsers = [
     year: "Ty",
     stars: 3,
     tags: ["webdev", "android"],
+    email: "amit.desai@pillai.edu.in",
   },
 ];
 
