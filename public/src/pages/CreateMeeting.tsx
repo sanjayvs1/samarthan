@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import { useAppSelector } from "./redux";
 
 const appId = 1044134370;
 const serverSecret = "1ae8e04c89553561675c96cd5da2cc02";
 
 const JoinMeeting: React.FC = () => {
   const [isAllowed, setIsAllowed] = useState(false);
+  const username = useAppSelector((zoom) => zoom.userInfo.userInfo?.username);
   const [meetingCode, setMeetingCode] = useState("");
   const validCode = "123456"; // Set your valid meeting code here
+
+  // Function to generate a valid user ID by allowing only alphanumeric characters
+  const generateValidUserId = (username: string) => {
+    const fallbackUserId = `user-${Math.floor(Math.random() * 10000)}`;
+    return username && /^[a-zA-Z0-9]+$/.test(username)
+      ? username
+      : fallbackUserId;
+  };
+
+  // Use the sanitized userId
+  const userId = generateValidUserId(username!);
 
   // Function to handle joining the meeting
   const myMeeting = async (element: any) => {
@@ -15,8 +28,8 @@ const JoinMeeting: React.FC = () => {
       appId,
       serverSecret,
       meetingCode, // Using the meeting code as the room ID
-      "user-id", // You can replace with actual user ID logic
-      "user-name" // Replace with actual user name logic
+      userId, // Use sanitized user ID
+      username // Replace with actual user name logic
     );
 
     const zp = ZegoUIKitPrebuilt.create(kitToken);
@@ -63,10 +76,7 @@ const JoinMeeting: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div
-          className="myCallContainer w-full h-screen"
-          ref={myMeeting}
-        ></div>
+        <div className="myCallContainer w-full h-screen" ref={myMeeting}></div>
       )}
     </div>
   );

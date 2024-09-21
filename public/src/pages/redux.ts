@@ -42,26 +42,24 @@ export const userSlice = createSlice({
     setUserTags: (state, action) => {
       state.userInfo!.tags = [...state.userInfo!.tags, action.payload.tag];
     },
-    setIncrementStar: (state,action)=>{
-      state.userInfo!.stars = state.userInfo!.stars+action.payload
+    setIncrementStar: (state, action) => {
+      state.userInfo!.stars = state.userInfo!.stars + action.payload;
     },
-    
-  }
+  },
 });
 
-export const { setUserType, setUserTags,setIncrementStar } = userSlice.actions;
+export const { setUserType, setUserTags, setIncrementStar } = userSlice.actions;
 
 type RandomUsers = Array<UserInfo>;
 
 const initialRandomUsers: RandomUsers = [
   {
     type: "user",
-    username: "Dipesh Mishra",
+    username: "Rajendra Mishra",
     collegeName: "Pillai College of Engineering",
     year: "Ty",
     stars: 1,
     tags: ["ai", "ml"],
-    
   },
   {
     type: "user",
@@ -70,7 +68,6 @@ const initialRandomUsers: RandomUsers = [
     year: "Sy",
     stars: 2,
     tags: ["webdev", "android"],
-    
   },
   {
     type: "user",
@@ -79,7 +76,6 @@ const initialRandomUsers: RandomUsers = [
     year: "Fy",
     stars: 1,
     tags: ["ai", "webdev"],
-   
   },
   {
     type: "user",
@@ -88,7 +84,6 @@ const initialRandomUsers: RandomUsers = [
     year: "Sy",
     stars: 1,
     tags: ["android", "ml"],
-    
   },
   {
     type: "user",
