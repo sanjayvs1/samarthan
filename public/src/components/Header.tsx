@@ -7,7 +7,7 @@ const Header = () => {
   const navigate = useNavigate();
   const isAdmin = useAppSelector((store) => store.userInfo.userInfo?.type);
   return (
-    <div className="absolute top-0 left-0 w-full flex items-center p-4 bg-transparent z-10">
+    <div className="absolute top-0 left-0 w-full flex gap-x-16 items-center p-4 bg-transparent z-10">
       {/* Profile icon */}
       <FaUserCircle
         className="text-4xl text-gray-700 cursor-pointer"
