@@ -240,10 +240,17 @@ function CodeEditor() {
           </div>
 
           <div className="modal-action">
-      <form method="dialog">
-        <button className="btn " onClick={()=>{navigate('/portal/student')}}>Close</button>
-      </form>
-    </div>
+            <form method="dialog">
+              <button
+                className="btn "
+                onClick={() => {
+                  navigate("/portal/student");
+                }}
+              >
+                Close
+              </button>
+            </form>
+          </div>
         </div>
       </dialog>
 
@@ -303,7 +310,7 @@ function CodeEditor() {
         <button
           className="btn btn-primary"
           onClick={() => {
-            navigate('/project-roadmap')
+            navigate("/project-roadmap");
           }}
         >
           Learn Theory
