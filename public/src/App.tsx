@@ -13,8 +13,13 @@ import SelfProfile from "./pages/SelfProfile";
 import Profiles from "./pages/Profiles";
 import SwitchTest from "./pages/SwitchTest";
 import CreateMeeting from "./pages/CreateMeeting";
+<<<<<<< Updated upstream
 import AdministratorLogin from "./pages/AdministratorLogin";
 import CreateAssignment from "./pages/CreateAsssignment";
+=======
+import Assignment from "./pages/Assignment";
+import AssignmentNew from "./pages/AssignmentNew";
+>>>>>>> Stashed changes
 
 function App() {
   return (
@@ -48,6 +53,11 @@ function App() {
           />
 
           <Route path="/" element={<Login />} />
+<<<<<<< Updated upstream
+=======
+          <Route path="/Assignment" element={<AssignmentNew/>} />
+          
+>>>>>>> Stashed changes
         </Routes>
       </Router>
     </>
