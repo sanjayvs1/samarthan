@@ -35,7 +35,7 @@ const Portal = () => {
       title: "Code Query Forum",
       description:
         "Submit your code issues or queries and get replies from Gen AI or other users. A great place for collaborative problem-solving.",
-      route: "/code-query-forum",
+      route: "/forum",
       buttonStyle: "btn-primary",
     },
   ];

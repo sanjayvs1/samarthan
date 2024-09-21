@@ -7,8 +7,8 @@ const SelfProfile = () => {
   const profile = useAppSelector((store) => store.userInfo.userInfo);
   const testingModules = [
     {
-      icon: <FaBrain className="text-purple-500 text-4xl mb-4" />,
-      title: "Learn Artificial Intelligence",
+      icon: <FaBrain className="text-yellow-500 text-4xl mb-4" />,
+      title: "Explore artificialintelligence",
       description:
         "Explore the fundamentals of AI, including machine learning, neural networks, and natural language processing.",
       questions: 80,
@@ -16,7 +16,7 @@ const SelfProfile = () => {
     },
     {
       icon: <FaRobot className="text-blue-500 text-4xl mb-4" />,
-      title: "Learn Machine Learning",
+      title: "Explore machinelearning",
       description:
         "Master machine learning algorithms, data preprocessing, model evaluation, and implementation using popular libraries.",
       questions: 100,
@@ -24,7 +24,7 @@ const SelfProfile = () => {
     },
     {
       icon: <FaCode className="text-blue-400 text-4xl mb-4" />,
-      title: "Learn TypeScript",
+      title: "Explore typescript",
       description:
         "Master TypeScript, including static typing, interfaces, generics, and its integration with popular frameworks.",
       questions: 70,
@@ -32,7 +32,7 @@ const SelfProfile = () => {
     },
     {
       icon: <FaDatabase className="text-green-500 text-4xl mb-4" />,
-      title: "Learn MongoDB",
+      title: "Explore mongoDB",
       description:
         "Explore MongoDB, including document model, CRUD operations, indexing, and integration with server-side applications.",
       questions: 90,

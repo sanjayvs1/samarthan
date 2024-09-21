@@ -1,8 +1,10 @@
 import { ChangeEvent, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
 import { useAppSelector } from "./redux";
+import { useNavigate } from "react-router-dom";
 
 const Profiles = () => {
+  const navigate = useNavigate()
   const randomUser = useAppSelector((store) => store.randomUsers);
   const [tag, setTag] = useState<string>("");
 
@@ -24,6 +26,7 @@ const Profiles = () => {
       <h1 className="text-3xl font-mono font-bold text-center p-7">
         Search Potential Interns
       </h1>
+      <button className="btn btn-accent absolute top-10 right-10" onClick={()=>navigate('/create-room')}>Host Meeting</button>
       <div className="input-group flex flex-row justify-center items-center w-[50%]">
         <div className="relative w-full flex justify-center items-center">
           <input

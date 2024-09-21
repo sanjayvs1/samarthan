@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router,Routes,Route,useNavigate,} from "react-router-dom";
 import CodeEditor from "./pages/CodeEditor";
 import Project from "./pages/Project";
 import DetailsA from "./pages/DetailsA";
@@ -11,6 +6,8 @@ import Login from "./pages/Login";
 import Portal from "./pages/Portal";
 import QuestionPage from "./pages/QuestionPage";
 import Quiz from "./pages/Quiz";
+import forum from "./pages/forum";
+import ForumPage from "./pages/forum";
 
 // Import FontAwesome for profile icon (optional)
 import SelfProfile from "./pages/SelfProfile";
@@ -28,6 +25,7 @@ function App() {
           <Route path="/DetailsA" element={<DetailsA />} />
           <Route path="/portal/*" element={<Portal />} />
           <Route path="/module/java" element={<QuestionPage module="Java" />} />
+          <Route path="/forum" element={<ForumPage />} />
           <Route path="/your-profile" element={<SelfProfile />} />
           <Route path="/profiles" element={<Profiles />} />
           <Route
@@ -43,9 +41,12 @@ function App() {
           <Route path="/SwitchTest" element={<SwitchTest />} />
           <Route path="/create-room" element={<CreateMeeting />} />
           <Route path="/" element={<Login />} />
+          
         </Routes>
       </Router>
     </>
+
+  
   );
 }
 
