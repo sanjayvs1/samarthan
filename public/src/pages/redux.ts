@@ -93,7 +93,7 @@ const initialRandomUsers: RandomUsers = [
   {
     type: "user",
     username: "Pooja Singh",
-    collegeName: "Pillai College of Engineering?apikey=LfMK8pr4mPhXew",
+    collegeName: "Pillai College of Engineering",
     year: "Ty",
     stars: 2,
     tags: ["webdev", "ai"],
@@ -109,7 +109,7 @@ const initialRandomUsers: RandomUsers = [
   {
     type: "user",
     username: "Ayesha Khan",
-    collegeName: "Pillai College of Engineering?apikey=LfMK8pr4mPhXew",
+    collegeName: "Pillai College of Engineering",
     year: "Sy",
     stars: 1,
     tags: ["webdev", "ml"],
@@ -120,7 +120,7 @@ const initialRandomUsers: RandomUsers = [
     collegeName: "Pillai College of Engineering",
     year: "Fy",
     stars: 2,
-    tags: ["android", "ai"],
+    tags: ["android", "react"],
   },
   {
     type: "user",
