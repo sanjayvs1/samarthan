@@ -78,6 +78,8 @@ Our AI-powered educational platform offers:
 
 8. **Assessment Portal**: Comprehensive tracking of progress and skill development.
 
+9. **Conferencing Portal**: Comprehensive tracking of progress and skill development.
+
 This end-to-end solution empowers users from beginner to professional level, integrating AI-assisted learning, project management, and talent acquisition.
 
 ###  Features
