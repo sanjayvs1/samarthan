@@ -51,6 +51,8 @@ function App() {
           />
 
           <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+
           <Route path="/Assignment" element={<AssignmentNew />} />
         </Routes>
       </Router>

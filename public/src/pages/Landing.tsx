@@ -29,7 +29,7 @@ const Landing = () => {
                             <h2 className="card-title">AI Coding Tutor</h2>
                             <p>Learn coding with step by step guide with hints!</p>
                             <div className="card-actions justify-end">
-                                <button className="btn">Check out!</button>
+                                <a className="btn" href="/ai-tutor">Check out!</a>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@ const Landing = () => {
                             <h2 className="card-title">Project Roadmap</h2>
                             <p>Get detailed Roadmap and Diagram for any project topic!</p>
                             <div className="card-actions justify-end">
-                                <button className="btn">Check out!</button>
+                                <a className="btn" href="/project-roadmap">Check out!</a>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@ const Landing = () => {
                             <h2 className="card-title">AI Generated Quizzes</h2>
                             <p>Get AI Generated Quizzes on any topic of choice!</p>
                             <div className="card-actions justify-end">
-                                <button className="btn">Check out!</button>
+                                <a className="btn" href="/login">Check out!</a>
                             </div>
                         </div>
                     </div>

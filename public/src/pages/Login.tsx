@@ -1,16 +1,20 @@
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useAsyncError, useNavigate } from "react-router-dom";
 import {
+  setIncrementStar,
   setUserType,
-  useAppDispatch
+  useAppDispatch,
+  useAppSelector,
 } from "./redux";
+import Header from "../components/Header";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   return (
-    <div className="flex flex-col items-center bg-gradient-to-r min-h-screen from-indigo-500 via-purple-500 to-pink-500">
-      <div className="card w-96 bg-white shadow-xl rounded-lg p-6 m-10">
+    <div className="flex relative items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+      <div className="card w-96 bg-white shadow-xl rounded-lg p-6">
         <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
           Login as
         </h2>
