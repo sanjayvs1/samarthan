@@ -28,7 +28,7 @@ const UserLogin = () => {
   async function start() {
     const { data } = await axios.post(`${apiUrl}/`, {
       user: "user", //user | admin
-      tool: "", //aitutor | codeforum | roadmap | quizzes | modules | profile | join-meeting   ||  connect | create-assignment | host-meeting | learnings | leaderboard&internships
+      tool: "aitutor", //aitutor | codeforum | roadmap | quizzes | modules | profile | join-meeting   ||  connect | create-assignment | host-meeting | learnings | leaderboard&internships
       aitutor: "", // theory | analysis
       codeforum: "", // ask-questions
       modules: "", // aitutor | theory | analysis
