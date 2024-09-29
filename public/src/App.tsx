@@ -20,11 +20,12 @@ import CreateAssignment from "./pages/CreateAsssignment";
 import Assignment from "./pages/Assignment";
 import AssignmentNew from "./pages/AssignmentNew";
 import Landing from "./pages/Landing";
+import UserLogin from "./pages/UserLogin";
 
 function App() {
   return (
     <>
-    <TimeTracker />
+      <TimeTracker />
       <Router>
         <Routes>
           <Route path="/ai-tutor" element={<CodeEditor />} />
@@ -55,6 +56,7 @@ function App() {
 
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/UserLogin" element={<UserLogin />} />
 
           <Route path="/Assignment" element={<AssignmentNew />} />
         </Routes>

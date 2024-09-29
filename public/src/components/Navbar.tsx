@@ -1,6 +1,7 @@
 
 const Navbar = () => {
     return (
+        
         <div className="navbar bg-slate-900 p-5 rounded-2xl">
             <div className="navbar-start">
                 <div className="dropdown">
@@ -34,7 +35,9 @@ const Navbar = () => {
                 </ul> */}
             </div>
             <div className="navbar-end">
-                <a className="btn btn-primary">Login/Signup</a>
+                <a className="btn btn-primary" href="/UserLogin">Login/Signup
+
+                </a>
             </div>
         </div>
     )

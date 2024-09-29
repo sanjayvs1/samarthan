@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaJava,
@@ -9,39 +9,18 @@ import {
   FaDatabase,
   FaLinux,
 } from "react-icons/fa";
-import { setLanguage, setQuestion, useAppDispatch, useAppSelector } from "./redux";
-import Header from "../components/Header";
+import { setLanguage, useAppDispatch } from "./redux";
+import { Sidebar, SidebarItem } from "./Sidebar"; 
+import Header from "../components/Header"; 
 
 const Portal = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  // Data for the first grid
-  const firstGridCards = [
-    {
-      title: "Meet your AI tutor",
-      description:
-        "Get step-by-step algorithm hints and detailed descriptions of packages by entering your question. Perfect for personalized learning.",
-      route: "/ai-tutor",
-      buttonStyle: "btn-primary",
-    },
-    {
-      title: "Project Roadmap Generator",
-      description:
-        "Submit a project idea and receive a step-by-step roadmap to guide you through the entire process, tailored to your needs.",
-      route: "/project-roadmap",
-      buttonStyle: "btn-primary",
-    },
-    {
-      title: "Code Query Forum",
-      description:
-        "Submit your code issues or queries and get replies from Gen AI or other users. A great place for collaborative problem-solving.",
-      route: "/forum",
-      buttonStyle: "btn-primary",
-    },
-  ];
+  const [activeTab, setActiveTab] = useState("learning");
 
-  // Data for the learning modules
-  const modules = [
+  // Example Data for Learning Modules
+  const learningModules = [
     {
       icon: <FaJava className="text-indigo-500 text-4xl mb-4" />,
       title: "Learn Java",
@@ -76,7 +55,7 @@ const Portal = () => {
     },
   ];
 
-  // Data for the testing modules
+  // Example Data for Testing Modules
   const testingModules = [
     {
       icon: <FaJsSquare className="text-yellow-500 text-4xl mb-4" />,
@@ -112,106 +91,58 @@ const Portal = () => {
     },
   ];
 
-  const dispatch = useAppDispatch();
-  dispatch(setQuestion({ question: "" }));
-  const isAdmin = useAppSelector((zoom)=>zoom.userInfo.userInfo?.type)==="admin"
-
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-10">
-      <Header />
-      {!isAdmin && <button className="btn btn-accent absolute top-10 right-10" onClick={()=>navigate('/create-room')}>Join Meeting</button>}
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-white text-center mb-10">
-          Welcome to the Portal
-        </h1>
+    <div className="flex min-h-screen bg-gradient-to-r from-blue-100 via-white to-blue-100">
+      <Sidebar>
+        <SidebarItem onClick={() => navigate("/ai-tutor")}>Code Editor</SidebarItem>
+        <SidebarItem onClick={() => navigate("/project-roadmap")}>Roadmap Generator</SidebarItem>
+        <SidebarItem onClick={() => setActiveTab("learning")}>Learning Modules</SidebarItem>
+        <SidebarItem onClick={() => setActiveTab("testing")}>Testing Modules</SidebarItem>
+        <SidebarItem onClick={() => navigate("/forum")}>Query Forum</SidebarItem>
+        <SidebarItem onClick={() => navigate("/your-profile")}>My Profile</SidebarItem>
+      </Sidebar>
 
-        {/* First Grid: Two Cards in Single Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-          {firstGridCards.map((card, index) => (
-            <div
-              key={index}
-              className="card bg-white shadow-xl rounded-lg p-6 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              <h2 className="card-title text-2xl font-bold text-gray-800 mb-4">
-                {card.title}
-              </h2>
-              <p className="text-gray-700 mb-6">{card.description}</p>
-              <button
-                className={`btn ${card.buttonStyle}`}
-                onClick={() => navigate(card.route)}
+      <div className="flex-grow">
+       
+        <div className="max-w-7xl mx-auto p-10">
+          <h1 className="text-5xl font-extrabold text-gray-800 text-center mb-10">
+            {activeTab === "learning" ? "Explore Learning Modules" : "Test Your Skills"}
+          </h1>
+
+         
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {(activeTab === "learning" ? learningModules : testingModules).map((module, index) => (
+              <div
+                key={index}
+                className="card bg-white shadow-xl rounded-lg p-6 transition duration-300 ease-in-out transform hover:scale-105"
               >
-                Go to {card.title}
-              </button>
-            </div>
-          ))}
-        </div>
+                {module.icon}
+                <h2 className="card-title text-2xl font-bold text-gray-800 mb-4">
+                  {module.title}
+                </h2>
+                <p className="text-gray-700 mb-2">{module.description}</p>
+                <div className="badge badge-outline mb-4">
+                  Questions: {module.questions}
+                </div>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    const route = module.route;
+                    const regex = /\/(module|quiz)\/(\w+)/;
+                    const match = route.match(regex);
 
-        {/* Heading for Learning Modules */}
-        <h2 className="text-3xl font-bold text-white text-center mb-8">
-          Learning Modules
-        </h2>
-
-        {/* Second Grid: Learning Modules */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {modules.map((module, index) => (
-            <div
-              key={index}
-              className="card bg-white shadow-xl rounded-lg p-6 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              {module.icon}
-              <h2 className="card-title text-2xl font-bold text-gray-800 mb-4">
-                {module.title}
-              </h2>
-              <p className="text-gray-700 mb-2">{module.description}</p>
-              <div className="badge badge-outline mb-4">
-                Questions: {module.questions}
+                    if (match) {
+                      const lang = match[2];
+                      dispatch(setLanguage({ language: lang }));
+                    }
+                    navigate(module.route);
+                  }}
+                >
+                  {activeTab === "learning" ? "Start Learning" : "Start Testing"}
+                </button>
               </div>
-              <button
-                className="btn btn-accent"
-                onClick={() => {
-                  const route = module.route;
-                  const regex = /\/module\/(\w+)/;
-                  const match = route.match(regex);
-
-                  if (match) {
-                    const lang = match[1];
-                    dispatch(setLanguage({ language: lang }));
-                  }
-                  navigate(module.route);
-                }}
-              >
-                Start Learning
-              </button>
-            </div>
-          ))}
-        </div>
-
-        {/* Heading for Testing Modules */}
-        <h2 className="text-3xl font-bold text-white text-center mt-10 mb-8">
-          Testing Modules
-        </h2>
-
-        {/* Third Grid: Testing Modules */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {testingModules.map((module, index) => (
-            <div
-              key={index}
-              className="card bg-white shadow-xl rounded-lg p-6 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              {module.icon}
-              <h2 className="card-title text-2xl font-bold text-gray-800 mb-4">
-                {module.title}
-              </h2>
-              <p className="text-gray-700 mb-2">{module.description}</p>
-
-              <button
-                className="btn btn-accent"
-                onClick={() => navigate(module.route)}
-              >
-                Start Testing
-              </button>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
