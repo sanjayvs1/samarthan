@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UserLogin = () => {
@@ -22,6 +23,20 @@ const UserLogin = () => {
       setMessage("Invalid username or password. Please try again.");
     }
   };
+  async function start() {
+    const { data } = await axios.post("http://localhost:5000/", {
+      user: "user", //user | admin
+      tool: "aitutor", //aitutor | codeforum | roadmap | quizzes | modules | profile | join-meeting   ||  connect | create-assignment | host-meeting | learnings | leaderboard&internships
+      aitutor: "", // theory | analysis
+      codeforum: "", // ask-questions
+      modules: "", // aitutor | theory | analysis
+      profile: "", // take-assignment
+    });
+    console.log(data);
+  }
+  useEffect(() => {
+    start();
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 via-white to-blue-100 p-10">
@@ -56,7 +71,9 @@ const UserLogin = () => {
         {message && (
           <p
             className={`mt-4 text-center font-bold ${
-              message === "Login successful!" ? "text-green-500" : "text-red-500"
+              message === "Login successful!"
+                ? "text-green-500"
+                : "text-red-500"
             }`}
           >
             {message}

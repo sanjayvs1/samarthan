@@ -8,7 +8,7 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 via-white to-blue-100 p-10">
-      <div className="card w-96 bg-base-100 shadow-xl bg-white">
+      <div className="card w-96  shadow-xl bg-white">
         <div className="card-body">
           <h2 className="card-title text-3xl font-bold text-center mb-8 text-gray-800">
             Login as
