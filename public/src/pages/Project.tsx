@@ -63,7 +63,6 @@ const Project = () => {
     }, [theoryQuestion]);
 
     const fetchDiagram = async (question: string) => {
-        console.log(`${apiUrl}/generate-diagram`)
         const { data } = await axios.post(`${apiUrl}/generate-diagram`, { prompt: question });
         setDiagram(data.diagram);
     };
