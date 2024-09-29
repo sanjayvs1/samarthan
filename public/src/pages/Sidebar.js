@@ -13,7 +13,7 @@ export const SidebarItem = ({ onClick, children }) => {
   return (
     <li>
       <button
-        className="w-full text-left px-4 py-2 hover:bg-gray-200 transition duration-200 rounded"
+        className="flex flex-row items-center w-full text-left px-4 py-2 hover:bg-gray-200 transition duration-200 rounded text-slate-800 gap-2" 
         onClick={onClick}
       >
         {children}

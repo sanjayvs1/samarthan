@@ -10,8 +10,9 @@ import {
   FaLinux,
 } from "react-icons/fa";
 import { setLanguage, useAppDispatch } from "./redux";
-import { Sidebar, SidebarItem } from "./Sidebar"; 
-import Header from "../components/Header"; 
+import { Sidebar, SidebarItem } from "./Sidebar";
+import Header from "../components/Header";
+import { Book, Map, CheckCircle, Code, MessageCircle, User } from "lucide-react";
 
 const Portal = () => {
   const navigate = useNavigate();
@@ -94,22 +95,39 @@ const Portal = () => {
   return (
     <div className="flex min-h-screen bg-gradient-to-r from-blue-100 via-white to-blue-100">
       <Sidebar>
-        <SidebarItem onClick={() => navigate("/ai-tutor")}>Code Editor</SidebarItem>
-        <SidebarItem onClick={() => navigate("/project-roadmap")}>Roadmap Generator</SidebarItem>
-        <SidebarItem onClick={() => setActiveTab("learning")}>Learning Modules</SidebarItem>
-        <SidebarItem onClick={() => setActiveTab("testing")}>Testing Modules</SidebarItem>
-        <SidebarItem onClick={() => navigate("/forum")}>Query Forum</SidebarItem>
-        <SidebarItem onClick={() => navigate("/your-profile")}>My Profile</SidebarItem>
+        <SidebarItem onClick={() => navigate("/ai-tutor")}>
+          <Code style={{ marginRight: '8px' }} />
+          Code Editor
+        </SidebarItem>
+        <SidebarItem onClick={() => navigate("/project-roadmap")}>
+          <Map style={{ marginRight: '8px' }} />
+          Roadmap Generator
+        </SidebarItem>
+        <SidebarItem onClick={() => setActiveTab("learning")}>
+          <Book style={{ marginRight: '8px' }} />
+          Learning Modules
+        </SidebarItem>
+        <SidebarItem onClick={() => setActiveTab("testing")}>
+          <CheckCircle style={{ marginRight: '8px' }} />
+          Testing Modules
+        </SidebarItem>
+        <SidebarItem onClick={() => navigate("/forum")}>
+          <MessageCircle style={{ marginRight: '8px' }} />
+          Query Forum
+        </SidebarItem>
+        <SidebarItem onClick={() => navigate("/your-profile")}>
+          <User style={{ marginRight: '8px' }} />
+          My Profile
+        </SidebarItem>
       </Sidebar>
-
       <div className="flex-grow">
-       
+
         <div className="max-w-7xl mx-auto p-10">
           <h1 className="text-5xl font-extrabold text-gray-800 text-center mb-10">
             {activeTab === "learning" ? "Explore Learning Modules" : "Test Your Skills"}
           </h1>
 
-         
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {(activeTab === "learning" ? learningModules : testingModules).map((module, index) => (
               <div
