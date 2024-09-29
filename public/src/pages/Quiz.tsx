@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { setIncrementStar, setUserTags, useAppDispatch } from "./redux";
 
+const apiUrl = process.env.REACT_APP_API;
+
 const Quiz = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -75,7 +77,7 @@ const Quiz = () => {
   const fetchQuiz = async (topic: any) => {
     setLoading(true);
     try {
-      const { data } = await axios.post("http://localhost:5000/quiz/generate", {
+      const { data } = await axios.post(`${apiUrl}/quiz/generate`, {
         topic,
       });
       setQuizData(JSON.parse(data));

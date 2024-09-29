@@ -7,6 +7,8 @@ import Confetti from "react-confetti";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "./redux";
 
+const apiUrl = process.env.REACT_APP_API;
+
 function CodeEditor() {
   const [question, setQuestion] = useState("");
   const [steps, setSteps] = useState<any[]>([]);
@@ -59,7 +61,7 @@ function CodeEditor() {
     try {
       setLoading(true);
       setStartTime(Date.now());
-      const { data } = await axios.post("http://localhost:5000/generate-code", {
+      const { data } = await axios.post(`${apiUrl}/generate-code`, {
         prompt: question,
         language,
       });
@@ -76,7 +78,7 @@ function CodeEditor() {
 
   const runCode = async () => {
     try {
-      const { data } = await axios.post("http://localhost:5000/execute", { code:code });
+      const { data } = await axios.post(`${apiUrl}/execute`, { code:code });
       setConsoleLogs(String(data.output))
     } catch (e) {
       console.error(e);
@@ -107,7 +109,7 @@ function CodeEditor() {
       console.log("Submitted code:", code);
       let {
         data: { structuredResponse },
-      } = await axios.post("http://localhost:5000/parseCode", {
+      } = await axios.post(`${apiUrl}/parseCode`, {
         response,
         code,
         currentStep,

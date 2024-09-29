@@ -3,6 +3,8 @@ import React, { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setUserType, useAppDispatch } from "./redux";
 
+const apiUrl = process.env.REACT_APP_API;
+
 const AdministratorLogin = () => {
   const [admindata, setadmindata] = useState({ adminName: "", password: "" });
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ const AdministratorLogin = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:5000/authAdmin", {
+      const { data } = await axios.post(`${apiUrl}/authAdmin`, {
         adminName: admindata.adminName,
         password: admindata.password,
       });

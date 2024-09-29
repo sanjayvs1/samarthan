@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
+const apiUrl = process.env.REACT_APP_API;
+
 const CreateAssignment = () => {
   const [lang, setLang] = useState<string>(""); // Language selected
   const [question, setQuestion] = useState<string>(""); // Question entered
@@ -9,7 +11,7 @@ const CreateAssignment = () => {
   const handleSubmit = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/uploadQuestion",
+        `${apiUrl}/uploadQuestion`,
         {
           question, // Send question text
           lang, // Send selected language
@@ -23,7 +25,7 @@ const CreateAssignment = () => {
 
   useEffect(() => {
     async function start() {
-      const { data } = await axios.get("http://localhost:5000/getQuestions");
+      const { data } = await axios.get(`${apiUrl}/getQuestions`);
       setFetchQuestions(data.questions); // Update the state with fetched questions
       console.log(data.questions);
     }

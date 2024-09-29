@@ -7,6 +7,8 @@ import Confetti from "react-confetti";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "./redux";
 
+const apiUrl = process.env.REACT_APP_API;
+
 function Assignment() {
   const [question, setQuestion] = useState("");
   const [code, setCode] = useState("");
@@ -42,6 +44,8 @@ function Assignment() {
   const [codeparseLoading, setcodeparseLoading] = useState<boolean>(false);
   const [codeparseError, setcodeparseError] = useState<boolean>(false);
 
+  const apiUrl = process.env.API;
+
   // Fetch steps and start the timer
   useEffect(() => {
     if (courseQues) {
@@ -52,7 +56,7 @@ function Assignment() {
 
   const runCode = async () => {
     try {
-      const { data } = await axios.post("http://localhost:5000/execute", { code:code });
+      const { data } = await axios.post(`${apiUrl}/execute`, { code: code });
       setConsoleLogs(String(data.output))
     } catch (e) {
       console.error(e);
@@ -60,27 +64,27 @@ function Assignment() {
   }
 
   const handleSubmit = async () => {
-      if (Object.keys(response).length === 0) return;
-      setcodeparseLoading(true);
+    if (Object.keys(response).length === 0) return;
+    setcodeparseLoading(true);
 
-      console.log("Submitted code:", code);
-                const { data } = await axios.post("http://localhost:5000/evaluate", {
-                  question,
-                  code,
-                  time: elapsedTime.toString()
-                });
-                console.log(data);
-          setFinalTime(elapsedTime);
-          setShowCompletionPopup(true);
-          setTimeout(() => setShowCompletionPopup(false), 2000);
-          setTimeout(() => {
-            const dialouge = document.getElementById(
-              "my_modal_1"
-            ) as HTMLDialogElement;
-            dialouge.showModal();
-          }, 3000);
-          console.log(finalTime);
-        }
+    console.log("Submitted code:", code);
+    const { data } = await axios.post(`${apiUrl}/evaluate`, {
+      question,
+      code,
+      time: elapsedTime.toString()
+    });
+    console.log(data);
+    setFinalTime(elapsedTime);
+    setShowCompletionPopup(true);
+    setTimeout(() => setShowCompletionPopup(false), 2000);
+    setTimeout(() => {
+      const dialouge = document.getElementById(
+        "my_modal_1"
+      ) as HTMLDialogElement;
+      dialouge.showModal();
+    }, 3000);
+    console.log(finalTime);
+  }
 
   useEffect(() => {
     if (startTime !== null) {
@@ -246,7 +250,7 @@ function Assignment() {
       </div>
       <div className="pl-4 flex gap-4">
         <div className="basis-1/5">
-          
+
         </div>
 
         <div className="flex-1 basis-3/5">
@@ -280,8 +284,8 @@ function Assignment() {
               </button>
             )}
             <button className="btn btn-primary" onClick={runCode}>
-                Run Code
-              </button>
+              Run Code
+            </button>
             {codeparseError && (
               <div className="badge badge-error gap-2">
                 <svg
@@ -308,7 +312,7 @@ function Assignment() {
         </div>
 
         <div className="w-64">
-          
+
 
           <div className="fixed bottom-0 right-0 flex gap-5 z-10 bg-gray-900 bg-opacity-5 p-3 backdrop-blur-sm mix-blend-multiply">
             <div>

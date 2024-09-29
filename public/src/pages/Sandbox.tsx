@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
+const apiUrl = process.env.REACT_APP_API;
+
 function Sandbox() {
     const [code, setCode] = useState('');
     const [output, setOutput] = useState('');
@@ -9,7 +11,7 @@ function Sandbox() {
         setError('');
         setOutput('');
         try {
-            const { data } = await axios.post("http://localhost:5000/execute", { code: code })
+            const { data } = await axios.post(`${apiUrl}/execute`, { code: code })
             setOutput(String(data.output));
         } catch (err: any) {
             setError(err.toString());

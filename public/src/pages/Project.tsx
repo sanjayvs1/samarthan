@@ -5,6 +5,8 @@ import markdownIt from 'markdown-it';
 import './Project.css';
 import { store, useAppSelector } from './redux';
 
+const apiUrl = process.env.REACT_APP_API;
+
 interface MermaidDiagramProps {
     chart: string;
 }
@@ -61,14 +63,15 @@ const Project = () => {
     }, [theoryQuestion]);
 
     const fetchDiagram = async (question: string) => {
-        const { data } = await axios.post("http://localhost:5000/generate-diagram", { prompt: question });
+        console.log(`${apiUrl}/generate-diagram`)
+        const { data } = await axios.post(`${apiUrl}/generate-diagram`, { prompt: question });
         setDiagram(data.diagram);
     };
 
     const fetchResult = async (question: string) => {
         setLoading(true);
         fetchDiagram(question);
-        const { data } = await axios.post("http://localhost:5000/generate-roadmap", { topic: question });
+        const { data } = await axios.post(`${apiUrl}/generate-roadmap`, { topic: question });
         setResult(data.result);
         setLoading(false);
     };

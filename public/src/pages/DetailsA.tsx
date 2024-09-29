@@ -2,6 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+const apiUrl = process.env.REACT_APP_API;
+
+
 const DetailsA: React.FC = () => {
   let { id } = useParams();
   const [result, setResult] = useState<any>({});
@@ -14,7 +17,7 @@ const DetailsA: React.FC = () => {
     try {
       id = id?.split("%20").join(" ");
       console.log(id);
-      let { data } = await axios.post("http://localhost:5000/detaila", { topic: id });
+      let { data } = await axios.post(`${apiUrl}/detaila`, { topic: id });
       data = JSON.parse(data);
       console.log(data);
       setResult(data);

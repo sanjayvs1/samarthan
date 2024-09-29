@@ -3,6 +3,8 @@ import axios from "axios";
 import { useState } from "react";
 import { FaPaperPlane, FaPlay } from "react-icons/fa";
 
+const apiUrl = process.env.REACT_APP_API;
+
 const AssignmentNew =()=>{
     const [language,setLanguage] =useState<string>("")
     const [theme,setTheme] =useState<string>("")
@@ -38,7 +40,7 @@ const AssignmentNew =()=>{
           };
           const runCode = async () => {
             try {
-              const { data } = await axios.post("http://localhost:5000/execute", { code:code });
+              const { data } = await axios.post(`${apiUrl}/execute`, { code:code });
               setConsoleLogs(String(data.output))
             } catch (e) {
               console.error(e);
