@@ -17,6 +17,7 @@ import AdministratorLogin from "./pages/AdministratorLogin";
 import CreateAssignment from "./pages/CreateAsssignment";
 import Assignment from "./pages/Assignment";
 import AssignmentNew from "./pages/AssignmentNew";
+import UserLogin from "./pages/UserLogin";
 
 function App() {
   return (
@@ -44,6 +45,8 @@ function App() {
           <Route path="/SwitchTest" element={<SwitchTest />} />
           <Route path="/create-room" element={<CreateMeeting />} />
           <Route path="/AdministratorLogin" element={<AdministratorLogin />} />
+
+          <Route path="/UserLogin" element={<UserLogin />} />
           <Route
             path="/admin/create-assignment"
             element={<CreateAssignment />}

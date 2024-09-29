@@ -463,8 +463,8 @@ Question: "${response.code.question}"
 Current Step (${currentStep + 1}): "${currentStepDetails.step_title}"
 
 Keywords for this step: ${currentStepDetails.keywords
-    .map((kw) => kw.keyword)
-    .join(", ")}
+      .map((kw) => kw.keyword)
+      .join(", ")}
 
 User's Code for this step:
 ${code}
@@ -504,8 +504,9 @@ The evaluation should consider:
   ]
 }
 
-Note: We are currently at step ${currentStep +
-    1}. Evaluate the user's code with this context in mind and provide the structured JSON response accordingly.
+Note: We are currently at step ${
+    currentStep + 1
+  }. Evaluate the user's code with this context in mind and provide the structured JSON response accordingly.
 `;
 
   try {

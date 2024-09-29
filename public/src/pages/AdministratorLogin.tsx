@@ -15,46 +15,47 @@ const AdministratorLogin = () => {
         adminName: admindata.adminName,
         password: admindata.password,
       });
-      console.log(data.success);
       if (data.success) {
         dispatch(setUserType({ type: "admin" }));
         navigate("/portal/admin");
       }
-      // You can navigate to another page if login is successful
-      // navigate('/dashboard');
     } catch (e) {
       console.log(e);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-      <div className="card w-96 bg-white shadow-xl rounded-lg p-8">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          Administrator Login
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100">
+      <div className="card w-full max-w-md bg-white shadow-xl rounded-lg p-8">
+        <h2 className="text-4xl font-bold text-center text-gray-800 mb-6">
+          Admin Login
         </h2>
-        <form className="flex flex-col space-y-6" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={admindata.adminName}
-            onChange={(e) =>
-              setadmindata({ ...admindata, adminName: e.target.value })
-            }
-            placeholder="Admin Name"
-            className="input input-primary input-bordered bg-white w-full max-w-xs focus:ring focus:ring-indigo-300"
-          />
-          <input
-            type="password"
-            value={admindata.password}
-            onChange={(e) =>
-              setadmindata({ ...admindata, password: e.target.value })
-            }
-            placeholder="Password"
-            className="input input-primary input-bordered bg-white w-full max-w-xs focus:ring focus:ring-indigo-300"
-          />
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <div className="form-control">
+            <input
+              type="text"
+              value={admindata.adminName}
+              onChange={(e) =>
+                setadmindata({ ...admindata, adminName: e.target.value })
+              }
+              placeholder="Admin Name"
+              className="input input-primary input-bordered bg-white w-full max-w-md focus:ring-2 focus:ring-blue-300"
+            />
+          </div>
+          <div className="form-control">
+            <input
+              type="password"
+              value={admindata.password}
+              onChange={(e) =>
+                setadmindata({ ...admindata, password: e.target.value })
+              }
+              placeholder="Password"
+              className="input input-primary input-bordered bg-white w-full max-w-md focus:ring-2 focus:ring-blue-300"
+            />
+          </div>
           <button
             type="submit"
-            className="btn btn-primary btn-lg text-white font-semibold py-3 rounded-md shadow-lg hover:bg-blue-600 transition-all duration-300 ease-in-out focus:ring-4 focus:ring-blue-300"
+            className="btn btn-info w-full text-lg font-semibold py-3 rounded-md hover:bg-blue-600 hover:scale-105 transition-all duration-300 ease-in-out focus:ring-4 focus:ring-blue-300"
           >
             Login
           </button>
