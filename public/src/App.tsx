@@ -7,6 +7,8 @@ import Portal from "./pages/Portal";
 import QuestionPage from "./pages/QuestionPage";
 import Quiz from "./pages/Quiz";
 import ForumPage from "./pages/forum";
+import TimeTracker from './components/TimeTracker';
+
 
 // Import FontAwesome for profile icon (optional)
 import SelfProfile from "./pages/SelfProfile";
@@ -22,6 +24,7 @@ import Landing from "./pages/Landing";
 function App() {
   return (
     <>
+    <TimeTracker />
       <Router>
         <Routes>
           <Route path="/ai-tutor" element={<CodeEditor />} />
