@@ -13,6 +13,7 @@ const Landing = () => {
                     <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-down animate-once animate-duration-800 animate-delay-0 animate-ease-out">
                         Unlock Your Coding Potential
                     </h1>
+
                     <p className="text-xl md:text-2xl mb-8 animate-fade-down animate-once animate-duration-800 animate-delay-200 animate-ease-out">
                         Learn, Code, and Create with <span className=' font-robotoslab'>Samarthan</span>
                     </p>
