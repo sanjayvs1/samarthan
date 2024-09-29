@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const apiUrl = process.env.REACT_APP_API;
+
 const UserLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +26,7 @@ const UserLogin = () => {
     }
   };
   async function start() {
-    const { data } = await axios.post("http://localhost:5000/", {
+    const { data } = await axios.post(`${apiUrl}/`, {
       user: "user", //user | admin
       tool: "", //aitutor | codeforum | roadmap | quizzes | modules | profile | join-meeting   ||  connect | create-assignment | host-meeting | learnings | leaderboard&internships
       aitutor: "", // theory | analysis
