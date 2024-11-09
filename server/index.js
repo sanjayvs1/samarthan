@@ -871,7 +871,7 @@ Time spent: {{time}} seconds
 
 Your task is to evaluate the given program based on the criteria mentioned above and return a score out of 10 in the specified JSON format. Do to not return anything else.
 `;
-/*
+
 app.post("/evaluate", async (req, res) => {
   const { question, code, time } = req.body;
   const finalPrompt = evalPrompt
@@ -912,7 +912,7 @@ app.post("/", async (req, res) => {
     }
   );
   res.send(data);
-});*/
+});
 
 // server.js
 
