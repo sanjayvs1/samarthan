@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Groq } from "groq-sdk";
+import axios from "axios";
 
-// Initialize the Groq API
-// Make sure to replace 'YOUR_API_KEY' with your actual Groq API key
-const groq = new Groq({
-  apiKey: "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",
-  dangerouslyAllowBrowser: true,
-});
-
+// Define the Reply and Post interfaces
 interface Reply {
   id: number;
   author: string;
@@ -58,7 +52,7 @@ const samplePosts: Post[] = [
     author: "Baller",
     date: "2024-09-21",
     content:
-      "I have been encountering the problem with the tesseract engoine as it seems to not run in my system,please somebody help!!!",
+      "I have been encountering the problem with the tesseract engine as it seems to not run in my system, please somebody help!!!",
     replies: [],
   },
   {
@@ -66,7 +60,7 @@ const samplePosts: Post[] = [
     title: "syntax error",
     author: "sanjay",
     date: "2024-09-21",
-    content: "i have been facing error with the gcc complier for my c++ in vs code,please someone help :)",
+    content: "I have been facing an error with the gcc compiler for my C++ in VS code, please someone help :)",
     replies: [],
   },
 ];
@@ -80,7 +74,6 @@ const ForumPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
 
-  // New state for adding a question
   const [newQuestionTitle, setNewQuestionTitle] = useState<string>("");
   const [newQuestionContent, setNewQuestionContent] = useState<string>("");
   const [showAddQuestionForm, setShowAddQuestionForm] = useState<boolean>(false);
@@ -94,6 +87,7 @@ const ForumPage: React.FC = () => {
     setFilteredPosts(results);
   }, [searchTerm, posts]);
 
+  // Fetch AI response from backend server
   const generateAIResponse = async () => {
     if (!selectedPost) return;
 
@@ -102,14 +96,8 @@ const ForumPage: React.FC = () => {
       const prompt = `Given this forum post: "${selectedPost.title}: ${selectedPost.content}", 
                       generate a thoughtful and engaging response in about 2-3 sentences.`;
 
-      const completion = await groq.chat.completions.create({
-        messages: [{ role: "user", content: prompt }],
-        model: "mixtral-8x7b-32768",
-      });
-
-      setAiResponse(
-        completion.choices[0]?.message?.content || "No response generated."
-      );
+      const response = await axios.post("http://localhost:5000/generate-ai-response", { prompt });
+      setAiResponse(response.data.aiResponse || "No response generated.");
     } catch (error) {
       console.error("Error generating AI response:", error);
       setAiResponse("Sorry, I couldn't generate a response at this time.");
@@ -143,7 +131,6 @@ const ForumPage: React.FC = () => {
     setReplyContent("");
   };
 
-  // New function to handle adding a question
   const handleAddQuestion = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newQuestionTitle.trim() || !newQuestionContent.trim()) return;
@@ -167,7 +154,6 @@ const ForumPage: React.FC = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Community Forum</h1>
 
-      {/* Search Bar */}
       <div className="mb-6">
         <input
           type="text"
@@ -179,7 +165,6 @@ const ForumPage: React.FC = () => {
       </div>
 
       <div className="flex flex-col md:flex-row gap-6">
-        {/* Left sidebar with post list */}
         <div className="w-full md:w-1/3">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Recent Discussions</h2>
@@ -191,7 +176,6 @@ const ForumPage: React.FC = () => {
             </button>
           </div>
 
-          {/* Add Question Form */}
           {showAddQuestionForm && (
             <form onSubmit={handleAddQuestion} className="mb-6">
               <input
@@ -229,7 +213,6 @@ const ForumPage: React.FC = () => {
           </ul>
         </div>
 
-        {/* Main content area */}
         <div className="w-full md:w-2/3">
           {selectedPost ? (
             <div className="bg-base-200 p-6 rounded-box">
@@ -258,7 +241,6 @@ const ForumPage: React.FC = () => {
                 </div>
               )}
 
-              {/* Display existing replies */}
               <div className="mt-6">
                 <h3 className="text-xl font-semibold mb-4">Replies</h3>
                 {selectedPost.replies.map((reply) => (
@@ -273,26 +255,22 @@ const ForumPage: React.FC = () => {
                     <p>{reply.content}</p>
                   </div>
                 ))}
+                <form onSubmit={handleReply}>
+                  <textarea
+                    value={replyContent}
+                    onChange={(e) => setReplyContent(e.target.value)}
+                    placeholder="Write your reply..."
+                    className="textarea textarea-bordered w-full mb-2"
+                    rows={3}
+                  ></textarea>
+                  <button type="submit" className="btn btn-primary w-full">
+                    Post Reply
+                  </button>
+                </form>
               </div>
-
-              {/* Reply form */}
-              <form onSubmit={handleReply} className="mt-6">
-                <textarea
-                  className="textarea textarea-bordered w-full mb-2"
-                  placeholder="Write your reply..."
-                  value={replyContent}
-                  onChange={(e) => setReplyContent(e.target.value)}
-                  rows={3}
-                ></textarea>
-                <button type="submit" className="btn btn-primary">
-                  Post Reply
-                </button>
-              </form>
             </div>
           ) : (
-            <div className="bg-base-200 p-6 rounded-box text-center">
-              <p>Select a post to view its content</p>
-            </div>
+            <div>Select a post to view details and replies.</div>
           )}
         </div>
       </div>

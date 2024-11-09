@@ -4,6 +4,12 @@ const cors = require("cors");
 const adminLogin = require("./models/adminAuth");
 const postQuestion = require("./models/questionModel");
 const axios = require("axios");
+const Groq = require('groq-sdk');
+
+require('dotenv').config();
+ 
+const GroqKey = process.env.GROQ_API_KEY; // Load the API key from .env
+
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const mongoose = require("mongoose");
@@ -865,7 +871,7 @@ Time spent: {{time}} seconds
 
 Your task is to evaluate the given program based on the criteria mentioned above and return a score out of 10 in the specified JSON format. Do to not return anything else.
 `;
-
+/*
 app.post("/evaluate", async (req, res) => {
   const { question, code, time } = req.body;
   const finalPrompt = evalPrompt
@@ -906,6 +912,48 @@ app.post("/", async (req, res) => {
     }
   );
   res.send(data);
+});*/
+
+// server.js
+
+
+
+// Define the Groq API URL
+// Load the API key from .env
+
+// Middleware to parse JSON request bodies
+// Example endpoint to handle Groq request
+const groq = new Groq({ groqKey: process.env.GROQ_API_KEY });
+
+app.post('/generate-ai-response', async (req, res) => {
+  const { prompt } = req.body;
+
+  if (!prompt) {
+    return res.status(400).json({ error: 'Prompt is required' });
+  }
+
+  try {
+    // Use Groq SDK to generate a chat completion based on the provided prompt
+    const response = await groq.chat.completions.create({
+      messages: [
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ],
+      model: 'mixtral-8x7b-32768', // You can replace this with your specific model
+    });
+
+    // Extract the AI response from the API response
+    const aiResponse = response.choices[0]?.message?.content || 'No response generated';
+
+    // Send the AI response back to the client
+    res.json({ aiResponse });
+
+  } catch (error) {
+    console.error('Error generating AI response:', error);
+    res.status(500).json({ error: 'An error occurred while generating the response' });
+  }
 });
 
 app.get('/',(req,res)=>{res.send("Samarthan")})
