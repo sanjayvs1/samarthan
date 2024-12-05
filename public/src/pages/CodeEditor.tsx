@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import MonacoEditor from "@monaco-editor/react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { GoLightBulb } from "react-icons/go";
 
 import Confetti from "react-confetti";
@@ -189,7 +189,7 @@ function CodeEditor() {
   const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto py-4">
       {showCompletionPopup && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
           {showCompletionPopup && (
@@ -265,15 +265,20 @@ function CodeEditor() {
         </div>
       </dialog>
 
-      <div className="flex w-full justify-end items-center gap-x-4 mb-6">
-        <div className="text-center w-1/2 mb-12 mr-auto ">
-          <label className="input input-bordered flex items-center gap-2 mx-auto w-full ">
+      <div className="flex gap-2 mb-4">
+        <div className="text-center w-1/2 mr-auto">
+          <label className="input input-bordered flex items-center gap-2">
             <input
               type="text"
               className="grow"
               placeholder="Search"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  fetchSteps(question, language)
+                }
+            }}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -383,7 +388,7 @@ function CodeEditor() {
           </div>
         )}
       </div>
-      <div className="pl-4 flex gap-4">
+      <div className="flex gap-4">
         <div className="basis-1/5">
           <div className="mb-4 font-bold">Steps</div>
           <div className="overflow-y-auto h-[calc(100vh-10rem)]">
@@ -391,7 +396,7 @@ function CodeEditor() {
               {steps.map((step, index) => (
                 <li
                   key={step.step_id}
-                  className={`step ${currentStep === index ? "step-primary" : ""
+                  className={`step !text-left ${currentStep === index ? "step-primary" : ""
                     } ${index > currentStep && !completedSteps.includes(index)
                       ? "step-disabled"
                       : ""

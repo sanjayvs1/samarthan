@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import mermaid from 'mermaid';
 import axios from 'axios';
 import markdownIt from 'markdown-it';
+import mermaid from 'mermaid';
+import React, { useEffect, useRef, useState } from 'react';
 import './Project.css';
-import { store, useAppSelector } from './redux';
+import { useAppSelector } from './redux';
 
 const apiUrl = process.env.REACT_APP_API;
 
@@ -110,6 +110,11 @@ const Project = () => {
                                 placeholder="Search"
                                 value={question}
                                 onChange={(e) => setQuestion(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        handleSearchClick();
+                                    }
+                                }}
                             />
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

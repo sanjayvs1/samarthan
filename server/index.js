@@ -10,7 +10,6 @@ require('dotenv').config();
  
 const GroqKey = process.env.GROQ_API_KEY; // Load the API key from .env
 
-
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const mongoose = require("mongoose");
 mongoose
@@ -28,7 +27,7 @@ const app = express();
 app.use(express.json());
 app.use(cors()); // To handle cross-origin requests from your frontend
 
-const apiKey = "AIzaSyB10nBDi5qt-_vMxAvoQ4QpR0VZeOayFOk";
+const apiKey = process.env.GEMINI_API;
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({
@@ -585,9 +584,6 @@ app.post("/generate-diagram", async (req, res) => {
     if (generatedDiagram.startsWith("```mermaid")) {
       generatedDiagram = generatedDiagram.slice(10, -3);
     }
-    //slice(10, -3)
-    // Return the diagram content
-    console.log(generatedDiagram);
     res.json({ diagram: generatedDiagram });
   } catch (error) {
     console.error("Error generating diagram:", error);
@@ -731,9 +727,6 @@ app.post("/generate-roadmap", async (req, res) => {
     res.status(500).json({ error: "Error generating roadmap" });
   }
 });
-
-// const quizRouter = require('routes/quiz');
-// app.use('/quiz', quizRouter);
 
 const quizPrompt = `Generate 10 questions in JSON format mentioned below related to topic mentioned below. Do not return anything else. Keep the answers short.
 JSON format:
@@ -897,26 +890,24 @@ app.post("/evaluate", async (req, res) => {
   }
 });
 
-let key =
-  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImtqbVlNWThEV2VOU1lKZmZSSjFXNSJ9.eyJnaXZlbl9uYW1lIjoiQTQxNF9ESVBFU0giLCJmYW1pbHlfbmFtZSI6Ik1JU0hSQSIsIm5pY2tuYW1lIjoiZGlwZXNoMjJpdCIsIm5hbWUiOiJBNDE0X0RJUEVTSCBNSVNIUkEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSVJkVlNOcldhNEgxTXVyTjRIT3dWV1lzZ0FYUDVZX3JpOWprRU9yUmMyYUhIeHV3PXM5Ni1jIiwidXBkYXRlZF9hdCI6IjIwMjQtMDktMjlUMTE6MzM6NTkuMTAwWiIsImVtYWlsIjoiZGlwZXNoMjJpdEBzdHVkZW50Lm1lcy5hYy5pbiIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczovL2F1dGgub3JrZXMuaW8vIiwiYXVkIjoiRE1MWU15NUdUMzZRak5Qb3dFTHM5alg2YXNVSVEwaEkiLCJpYXQiOjE3Mjc2MjQxMDQsImV4cCI6MTcyNzY2MDEwNCwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDMwNzAxODU4OTkxMDg2NzQxNTQiLCJzaWQiOiJIU0JTQUFTVUk4NVpqTk1McXpHY0R5VW85Rl9kVDVsMiIsIm5vbmNlIjoiYkhSTGVHeCtaRGwxTmpGNE1EVXhNVEJHWlVkcFVuRk9iemRCUjA4eE1YVmpNSFZoVkZSTFRXUm5Zdz09In0.OXmxjwgqDAp-JCPN6IUVUJngZvuA5xUWq3fdn0SXCRgg1770AJ3wEMcTsb7fe5OGZLd7vgD79gkT_kGhFKyb4U8z4qtAxH0eCKYHSZVJz3gXVCLWyj_dsdj8XEuy4SxR66EChUHqWhjGla0eC96FFrjO4QSjq7qtQz_Ld-nVlmu7A5dV4siIoErA4gWY684JlAY8w_WbzOr0ZztnqXfI20Lpzu-LyfRxxSpZjZGNJhbmGX2bPQ68E8Kq4Or-Q60Yga3TJYJ1sW96Yd-eekNbX2LT2pUiOsP4_JBIsUC5lO9ZiObKBe1kkKOEkZ5cGJJlOu106PbEtEtVktlcnm0mDg";
-app.post("/", async (req, res) => {
-  const { data } = await axios.post(
-    "https://45ccf-ap-southeast.orkesconductor.io/api/workflow/NewWorkflow_aonlb",
-    req.body,
-    {
-      headers: {
-        accept: "text/plain",
-        "X-Authorization": key,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  res.send(data);
-});
+// let key =
+//   "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImtqbVlNWThEV2VOU1lKZmZSSjFXNSJ9.eyJnaXZlbl9uYW1lIjoiQTQxNF9ESVBFU0giLCJmYW1pbHlfbmFtZSI6Ik1JU0hSQSIsIm5pY2tuYW1lIjoiZGlwZXNoMjJpdCIsIm5hbWUiOiJBNDE0X0RJUEVTSCBNSVNIUkEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSVJkVlNOcldhNEgxTXVyTjRIT3dWV1lzZ0FYUDVZX3JpOWprRU9yUmMyYUhIeHV3PXM5Ni1jIiwidXBkYXRlZF9hdCI6IjIwMjQtMDktMjlUMTE6MzM6NTkuMTAwWiIsImVtYWlsIjoiZGlwZXNoMjJpdEBzdHVkZW50Lm1lcy5hYy5pbiIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczovL2F1dGgub3JrZXMuaW8vIiwiYXVkIjoiRE1MWU15NUdUMzZRak5Qb3dFTHM5alg2YXNVSVEwaEkiLCJpYXQiOjE3Mjc2MjQxMDQsImV4cCI6MTcyNzY2MDEwNCwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDMwNzAxODU4OTkxMDg2NzQxNTQiLCJzaWQiOiJIU0JTQUFTVUk4NVpqTk1McXpHY0R5VW85Rl9kVDVsMiIsIm5vbmNlIjoiYkhSTGVHeCtaRGwxTmpGNE1EVXhNVEJHWlVkcFVuRk9iemRCUjA4eE1YVmpNSFZoVkZSTFRXUm5Zdz09In0.OXmxjwgqDAp-JCPN6IUVUJngZvuA5xUWq3fdn0SXCRgg1770AJ3wEMcTsb7fe5OGZLd7vgD79gkT_kGhFKyb4U8z4qtAxH0eCKYHSZVJz3gXVCLWyj_dsdj8XEuy4SxR66EChUHqWhjGla0eC96FFrjO4QSjq7qtQz_Ld-nVlmu7A5dV4siIoErA4gWY684JlAY8w_WbzOr0ZztnqXfI20Lpzu-LyfRxxSpZjZGNJhbmGX2bPQ68E8Kq4Or-Q60Yga3TJYJ1sW96Yd-eekNbX2LT2pUiOsP4_JBIsUC5lO9ZiObKBe1kkKOEkZ5cGJJlOu106PbEtEtVktlcnm0mDg";
+// app.post("/", async (req, res) => {
+//   const { data } = await axios.post(
+//     "https://45ccf-ap-southeast.orkesconductor.io/api/workflow/NewWorkflow_aonlb",
+//     req.body,
+//     {
+//       headers: {
+//         accept: "text/plain",
+//         "X-Authorization": key,
+//         "Content-Type": "application/json",
+//       },
+//     }
+//   );
+//   res.send(data);
+// });
 
 // server.js
-
-
 
 // Define the Groq API URL
 // Load the API key from .env
